@@ -1,0 +1,490 @@
+﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
+        <a class="sidebar-brand brand-logo" href="~/Home/index"><img src="~/Uploads/keyluxsuite.png" alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="~/Home/index"><img src="~/Uploads/keyluxsuite.png" alt="logo" /></a>
+    </div>
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a class="nav-link">
+                <div class="nav-profile-image">
+                    @*<img src="~/assets/images/faces/face1.jpg" alt="profile" />*@
+                    <span class="login-status online"></span>
+                    <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column pr-3">
+                    <span class="font-weight-medium mb-2">@Session["LoginUserName"]</span>
+                    <span class="font-weight-normal">Admin</span>
+                </div>
+                <!--<span class="badge badge-danger text-white ml-3 rounded">3 Qoute</span>-->
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/Home/index">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <span class="menu-title">CRM</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    @*<li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/dropdowns.html">
+                            CRM
+                        </a>
+                    </li>*@
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Setup/Company">
+                            Company
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Setup/Contact">
+                            Contact
+                        </a>
+                    </li>
+                    @*<li class="nav-item">
+                        <a class="nav-link" href="/Setup/Leads">
+                            Leads
+                        </a>
+                    </li>*@
+
+                    @*<li class="nav-item">
+                        <a class="nav-link" href="/Setup/ReferelSources">
+                            Referral Source
+                        </a>
+                    </li>*@
+                </ul>
+            </div>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Leads">
+                <i class="mdi mdi-contacts menu-icon"></i>
+                <span class="menu-title">
+                    Leads
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Properties">
+                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                <span class="menu-title">
+                    Property
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Quotes">
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+                <span class="menu-title">
+                    Quote Sheet
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Vendors">
+                <i class="mdi mdi-contacts menu-icon"></i>
+                <span class="menu-title">
+                    Vendors
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/ReferelSources">
+                <i class="mdi mdi-contacts menu-icon"></i>
+                <span class="menu-title">
+                    Referral Source
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link" href="#">
+                <span class="menu-title">
+                    <b>Operations</b>
+                </span>
+            </span>
+        </li>
+        @*<li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Notices - NTV
+                </span>
+            </a>
+        </li>*@
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Reservations">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Reservations
+
+                </span>
+            </a>
+        </li>
+        @*<li class="nav-item">
+            <a class="nav-link" href="/Setup/Reservations">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Arrival Instructions
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Setup/Reservations">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Departure Instructions
+
+                </span>
+            </a>
+        </li>*@
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Customer Service
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <span class="menu-title"><b>Download Docs</b></span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadKeysuitesNTV">
+                            
+                                Notice to Vacate
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadCreditCardAuthorization">
+                            Credit Card<br />Authorization
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadMiFi">
+                                MiFi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadRentalAgreement">
+                                Rental Agreement
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadSmokingAddendum">
+                                Smoking Addendum
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadAMICS">
+                                AMICS
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadFurnitureandHousewaresCheckList">
+                            Furniture and<br />Housewares CheckList
+
+
+
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadFurniturePackage">
+                                Furniture Package
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadIndividualRentalApplication">
+                                Indiv. Rental App
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadInsuranceChecklist">
+                                Insurance Checklist
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadKeyluxeAuthorizedSigners">
+
+                            Keyluxe Authoriz<br />Signers
+
+
+
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/Downloadleasecancellation">
+                                Lease Cancellation
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadLetterofFinancialResponsibility">
+                            Letter of Financial<br />Responsibility
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadTradeReferenceSheet">
+                            Trade Reference Sheet
+
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Report/DownloadVendorApplication">
+                                Vendor Application
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!--<li class="nav-item">
+            <span class="nav-link" href="#">
+                <span class="menu-title">
+                    <b>Downloadable Documents</b>
+                </span>
+            </span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadKeysuitesNTV">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Notice to Vacate
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadCreditCardAuthorization">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Credit Card Authorization
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadMiFi">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    MiFi
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadRentalAgreement">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Rental Agreement
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadSmokingAddendum">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Smoking Addendum
+
+                </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadAMICS">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    AMICS
+
+                </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadFurnitureandHousewaresCheckList">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Furniture and Housewares
+
+                </span>
+
+            </a>
+            <a class="nav-link" href="/Report/DownloadFurnitureandHousewaresCheckList">
+                <span class="menu-title">
+                    CheckList
+
+                </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadFurniturePackage">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Furniture Package
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadIndividualRentalApplication">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Indiv. Rental App
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadInsuranceChecklist">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Insurance Checklist
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadKeyluxeAuthorizedSigners">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Keyluxe Authorized Signers
+
+                </span>
+            </a>
+        </li>-->
+        @*<li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadKeyluxeSuitesPDFreservationquote">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Keyluxe Suites PDF reservation quote
+
+                </span>
+            </a>
+        </li>*@
+        <!--<li class="nav-item">
+            <a class="nav-link" href="/Report/Downloadleasecancellation">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Lease Cancellation
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadLetterofFinancialResponsibility">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Letter of Financial
+
+                </span>
+            </a>
+            <a class="nav-link" href="/Report/DownloadLetterofFinancialResponsibility">
+
+                <span class="menu-title">
+                    Responsibility
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadTradeReferenceSheet">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Trade Reference Sheet
+
+                </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/DownloadVendorApplication">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Vendor Application
+
+                </span>
+            </a>
+        </li>-->
+
+        <li class="nav-item">
+            <span class="nav-link" href="#">
+                <span class="menu-title">
+                    <b>Reports</b>
+                </span>
+            </span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/UnitStatus">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Units Status Report
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/LeasedList">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Yearly Leased Report
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Report/ReferalSourceReport">
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+                <span class="menu-title">
+                    Referal Resources Report
+
+                </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link" href="#">
+                <span class="menu-title">
+                    <b>Payroll</b>
+                </span>
+            </span>
+        </li>
+        <li class="nav-item sidebar-actions">
+            <div class="nav-link">
+                <div class="mt-4">
+
+                    <ul class="mt-4 pl-0">
+                        <a class="nav-link" href="~/Account/Login">
+                        <li>Sign Out</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>

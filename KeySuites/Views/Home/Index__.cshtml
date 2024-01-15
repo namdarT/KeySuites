@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Vidly.Models.VwAppUserAsset>
+@{
+    ViewData["Title"] = "Device Data List";
+
+
+}
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    
+    <script type="text/javascript" src="../dist/index.dev.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
+
+    <script type="text/javascript">
+    function initMap(avgLat = 29.1992, avgLong = -95.4061) {
+        var value = "dsadfad";
+        var latlng = new google.maps.LatLng(avgLat, avgLong);
+        // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+        var mapOptions={
+        zoom: 15,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        panControl: true,
+        zoomControl: true,
+        streetViewControl: true,
+        mapTypeControl: true,
+        zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL
+        }
+        }
+        // This makes the div with id "map_canvas" a google map
+        var map=new google.maps.Map(document.getElementById("map"), mapOptions);
+        // place a marker on the map for each monument
+        @foreach (var place in Model) {  <text>
+            var myLatLng = new google.maps.LatLng("@place.latitude", "@place.longitude");
+            var markerTitle = "@place.asset_name"; // input the monuments name from the database
+            var URL = "http://cwbfm.org/Monument/MonumentDetails/" + "@place.asset_id"; // create the url to link to the monuments detail page
+        // set the marker icon based on the Allegiance
+        switch ("@place.active_ind") {
+        case "0" :
+        var image='http://maps.google.com/mapfiles/kml/paddle/grn-circle.png' ;
+        break;
+        case "1" :
+        var image='http://maps.google.com/mapfiles/kml/paddle/red-circle.png' ;
+        break;
+        case "U" :
+        var image='http://maps.google.com/mapfiles/kml/paddle/blu-circle.png' ;
+        break;
+        default:
+        var image='http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png' ;
+        }
+        var myMarker=new google.maps.Marker({
+        position: myLatLng,
+        icon: image,
+        title: markerTitle,
+        url: URL,
+        map: map
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            marker = new google.maps.Marker({
+                position: event.latLng,
+                map: map
+            });
+        // on click, go to the monuments detail page
+        google.maps.event.addListener(myMarker, "click" , function () {
+            window.location.href = this.url;
+            //document.getElementById("#lst").val = value;
+        });
+        </text>    } return
+    }
+    </script>
+    <div id="map" style="width: 800px; height: 700px;"></div>
+    <div id="status"></div>

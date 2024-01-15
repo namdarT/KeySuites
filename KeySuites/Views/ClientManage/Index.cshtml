@@ -1,0 +1,310 @@
+﻿<div>Sensors Detail</div>
+<div>Details</div>
+
+@model Tuple<IEnumerable<Vidly.Models.Party>, Vidly.Models.Party, IEnumerable<Vidly.Models.PartyContact>, Vidly.Models.PartyContact>
+@{
+    ViewData["Title"] = "Index";
+    //Tuple<Vidly.Models.VwAppUserAsset, IEnumerable<Vidly.Models.CountryCodes>> add_tuple = new Tuple<Vidly.Models.VwAppUserAsset, IEnumerable<Vidly.Models.CountryCodes>>(Model.Item2, Model.Item3);
+
+}
+
+<div class="row">
+
+    <div class="col-sm-10"></div>
+
+    <div class="col-sm-2">
+        <button class="">
+        </button>
+    </div>
+</div>
+
+<hr />
+<div class="row">
+
+    <div class="col-sm-10"><h5>Client/User Management</h5></div>
+
+    <div class="col-sm-2">
+
+    </div>
+</div>
+
+<hr />
+<div class="row">
+
+    <div class="col-md-12">
+        <button onClick="window.location.reload();">
+
+            <i class="material-icons">refresh</i>
+
+        </button>
+        @if (ViewData["error"] != "U")
+        {
+            <button id="add" data-target="addpanl">
+                <i class="material-icons">add</i>
+                <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+            </button>
+        }
+
+    </div>
+
+
+
+</div>
+@if (ViewData["AddEdit"] == "C")
+{
+    <div id="addsensor" class="row" style="display:block">
+        <div>
+            @Html.Partial("AddParty", Model.Item2)
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+}
+else if (ViewData["AddEdit"] == "")
+{
+    <div id="addsensor" class="row" style="display:none">
+        <div>
+            @Html.Partial("AddParty", Model.Item2)
+        </div>
+    </div>
+
+}
+
+@if (ViewData["error"] == "")
+{
+    <div id="adddetail" class="row" style="display:none">
+        <div>
+            @Html.Partial("AddPartyContact", Model.Item4)
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+}
+else if (ViewData["error"] == "U")
+{
+    <div id="adddetail" class="row" style="display:block">
+        <div>
+            @Html.Partial("AddPartyContact", Model.Item4)
+        </div>
+    </div>
+
+}
+
+@if (ViewData["Message"] != "" && ViewData["Message"] != null)
+{
+    <div class="row" style="display:block">
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6">
+
+        </div>
+        <div class="alert alert-danger" role="alert">
+            @Html.Label("Error: " + ViewData["Message"].ToString())
+        </div>
+    </div>
+
+}
+@if (ViewData["SuccessMessage"] != "" && ViewData["SuccessMessage"] != null)
+{
+    <div class="row" style="display:block">
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6">
+
+        </div>
+        <div id="alert" class="alert alert-success" role="alert" onclick="close();">
+            <strong>Click to Disable Message!    </strong><hr />
+            @Html.Label("" + ViewData["SuccessMessage"].ToString(), new { @style = "color:pink" })
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+}
+<div class="card">
+    <table class="table align-items-center mb-0 table-striped" style="font-size: 10px;font-weight:500">
+        <thead class="bg-primary">
+            <tr>
+                <th></th>
+                <th >Company Name</th>
+                <th >Short Name</th>
+                <th >Business Type</th>
+                <th ># of Sensors</th>
+                <th >Action</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Item1)
+        {
+            <tr class="bg-primary table-striped" style="color:black; background-color:white">
+                <td id="collapseButton"  onclick="collapse(this)"><i class="material-icons" >expand_more</i></td>
+                <td>@item.legal_name</td>
+                <td>@item.short_name</td>
+                <td>@item.entity_type_cd</td>
+                <td>@item.Noofsensors</td>
+
+                <td>
+                    <div class="my-auto">
+                        <a href="/ClientManage/Add/@item.party_id" class="btnLink" data-toggle="tooltip" title="Add Party"><i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted text-gray">person_add</i></a>
+                        <a href="/ClientManage/Index/@item.party_id" class="btnLink" data-toggle="tooltip" title="Edit Party"><i class="material-icons text-gray">edit</i></a>
+                        <a href="/ClientManage/DeleteParty/@item.party_id" class="btnLink" data-toggle="tooltip" title="Delete Party"><i class="material-icons text-gray">delete</i></a>
+                    </div>
+                </td>
+            </tr>
+
+            <tr id="hidden">
+                <td></td>
+                <td colspan=4>
+                    <table class="table align-items-center mb-0 table-striped" style="font-size: 10px;font-weight:500">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th></th>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                @*<th>Is Application User</th>*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item2 in Model.Item3.Where(a => a.party_id == item.party_id))
+                        {
+                            <tr>
+                                <td id="collapseButton" onclick="collapse(this)"><i class="material-icons">expand_more</i></td>
+                                <td>@item2.last_name</td>
+                                <td>@item2.first_name</td>
+                                <td>@item2.email</td>
+                                <td>@item2.party_contact_type_cd</td>
+                                <td>
+                                    
+                                    @if (@item2.account_status_cd == "active" || @item2.account_status_cd == "Active")
+                                    {
+                                        <i class="material-icons">verified_user</i>
+                                    }
+                                    else
+                                    {
+                                        <i class="material-icons">disabled_by_default</i>
+                                    }
+                                </td>
+                                @*<td>@item2.application_user_ind</td>*@
+                                <td>
+                                    <div class="my-auto">
+
+                                        <a href="/ClientManage/Edit/@item2.party_contact_id" class="btnLink" data-toggle="tooltip" title="Edit User"><i class="material-icons text-gray">edit</i></a>
+                                        <a href="/ClientManage/DeletePartyUser/@item2.party_contact_id" class="btnLink" data-toggle="tooltip" title="Delete User"><i class="material-icons text-gray">delete</i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        <tr id="hidden">
+                            <td></td>
+                            <td colspan=2>
+                                <table>
+                                    <tr>
+                                        <th>Mother</th>
+                                        <th>Father</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Winona Kirk</td>
+                                        <td>George Kirk</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<style>
+        .collapseButton {
+            vertical-align: text-top;
+        }
+
+        th, td {
+            padding: 1em;
+        }
+
+        #hidden {
+            display: none;
+        }
+
+        .Table {
+            margin-left: 12em;
+            margin-top: 1em;
+            margin-right: 1em;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+            /* table tr:nth-child(even) {
+                background-color: #5873C1;
+                color: white;
+            }
+
+            table tr:nth-child(odd) {
+                background-color: #3756B1;
+                color: white;
+            }
+    */
+
+
+            table th, td {
+                padding: 1em;
+                text-align: center;
+            }
+
+        #collapseButton:hover {
+            background-color: #cfcccc;
+        }
+</style>
+<link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+      type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+        type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    
+
+    //Div Visible
+    window.onload = function () {
+        document.getElementById('add').onclick = function () {
+            document.getElementById('addsensor').style.display = 'block';
+            return false;
+        };
+
+        //Alert Disable
+        document.getElementById('alert').onclick = function () {
+            window.location.href = "/ClientManage/AlertClose/";
+        };
+    };
+    //Success Alert
+    $("#alert").fadeTo(5000, 500).slideUp(500, function () {
+        $("#alert").slideUp(500);
+    });
+    //Grid Row Expand/Collaps
+    function collapse(cell) {
+        var row = cell.parentElement;
+        var target_row = row.parentElement.children[row.rowIndex];
+        if (target_row.style.display == 'table-row') {
+            cell.innerHTML = '<i class="material-icons">expand_more</i>';
+            target_row.style.display = 'none';
+        } else {
+            cell.innerHTML = '<i class="material-icons">expand_less</i>';
+            target_row.style.display = 'table-row';
+        }
+    }
+
+        
+</script>

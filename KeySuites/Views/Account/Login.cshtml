@@ -1,0 +1,111 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+
+@model Vidly.Models.Login
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-md-8 col-lg-6 col-xxl-3">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                <img src="~/Uploads/keyluxsuite.png" width="180" alt="">
+                            </a>
+                            <p class="text-center">Your Property Manager</p>
+                            
+                            <section>
+                                @using (Html.BeginForm("Login", "Account"))
+                                {
+
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="label-floating" style="color:black">
+                                                <label class="form-label" >User Name</label>
+
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control border-dark",  @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.UserName)
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group label-floating">
+                                                <label class="form-label" >Password</label>
+
+                                                @Html.TextBoxFor(m => m.PasswordHash, new { @class = "form-control border-dark", @type = "password", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.PasswordHash)
+                                            </div>
+                                        </div>
+                                        @*<div class="col-md-3">
+                        <div class="form-group label-floating" >
+                            @Html.LabelFor(m => m.Item1.country, new { @class = "control-label", @style = "color:white" })
+                            @Html.DropDownListFor(m => m.Item1.country, new SelectList(Model.Item2, "name", "id").ToList(), "", new { @class = "selectpicker",  @style = "color:white", data_style = "dropdown dropdown-toggle" })
+                            @Html.ValidationMessageFor(m => m.Item1.country)
+                        </div>
+                    </div>*@
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        @if (@ViewBag.error != null)
+                                        {
+                                            if (@ViewBag.error != "")
+                                            {
+                                                <div class="row" style="display:block">
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                    <div id="alert" class="alert alert-danger" role="alert" onclick="close();">
+                                                        <strong>@ViewBag.error</strong>
+
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        @Html.HiddenFor(m => m.PasswordHash)
+                                        <div class="col-md-12">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
+                                                
+                                                Login
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                }
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

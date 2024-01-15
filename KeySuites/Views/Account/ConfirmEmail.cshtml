@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Confirm email";
+
+    Layout = "~/Views/Shared/_Confirmation.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div>
+    <p>
+        Thank you for confirming your email.
+    </p>
+    <p>
+        Please <a asp-controller="Account" asp-action="Login">click here to log in</a>.
+    </p>
+</div>

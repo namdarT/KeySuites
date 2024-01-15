@@ -1,0 +1,592 @@
+﻿
+
+@model IEnumerable<Vidly.Models.Property>
+@{
+    ViewData["Title"] = "Properties";
+
+}
+
+@*<div class="row">
+
+        <div class="col-sm-10"></div>
+
+        <div class="col-sm-2">
+            <button class="btn-primary btn btn-block widthAuto marginTop32 marginLeft8">
+            </button>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+
+        <div class="col-sm-10"><h5>Vendors Definition</h5></div>
+
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+
+    <hr />*@
+<!--<div class="row">
+
+    <div class="col-md-12">
+        <button onClick="window.location.reload();">
+
+            <i class="material-icons">refresh</i>
+
+        </button>-->
+@*<button id="add" data-target="addpanl">
+        <i class="material-icons">add</i>
+        <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+    </button>*@
+<!--</div>
+
+
+
+</div>-->
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Properties</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    @*<li class="breadcrumb-item"><a >Setup</a></li>*@
+                    <li class="breadcrumb-item active" aria-current="page"> Properties </li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["SuccessMessage"] != "" && ViewData["SuccessMessage"] != null)
+        {
+            <div id="mess" class="row" style="display:block">
+
+                <div class="alert alert-success" style="background-color:lightgreen" role="alert">
+                    <strong style="color:black">Alert!</strong><hr />
+                    @Html.Label("" + ViewData["SuccessMessage"].ToString(), new { @style = "color:black" })
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Properties List</h4>
+                        <p class="card-description">
+                            
+                        </p>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href="/Setup/AddProperty" class="btn btn-primary btn-rounded btn-fw">
+
+                                    Add Property
+                                </a>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2"></div>
+                            @*<div class="col-md-2" id="ShowImage" style="display:block">
+
+
+                                <a id="btnshow" class="btn btn-primary btn-rounded btn-fw" data-toggle="tooltip" title="Show Image Gallery">Image Columns</a>
+
+                            </div>
+                            <div class="col-md-3" id="Back" style="display:none">
+
+
+                                <a id="btnhide" class="btn btn-primary btn-rounded btn-fw" data-toggle="tooltip" title="Show Image Gallery">Data Columns</a>
+
+                            </div>*@
+
+                            @*<div class="col-md-pull-6 pull-right">
+            <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex">
+                <form class="nav-link form-inline mt-2 mt-md-0">
+                    <div class="input-group">
+                        <input type="text" name="srchContactName" class="form-control" placeholder="Contact Name" />
+                        <span></span>
+                        <input type="text" name="srchOcupantName" class="form-control" placeholder="Occupant Name" />
+
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <a href="/Setup/Properties" class="mdi mdi-magnify"></a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </div>*@
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2" style="height:10px"></div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="demo_infoComp" class="box" style="display:none"></div>
+                            <table id="Comp" class="table table-striped " style="font-size:10px;color:black">
+                                <thead>
+                                    <tr>
+                                        @*<th width="10%" >
+            @Html.DisplayName("Attribute")
+        </th>*@
+
+                                        <th style="font-size:11px;color:black">Property Name</th>
+                                        <th style="font-size:11px;color:black">Address</th>
+                                        <th style="font-size:11px;color:black">City</th>
+                                        <th style="font-size:11px;color:black">State</th>
+                                        
+                                        <th style="font-size:11px;color:black">Management Comp.</th>
+                                        <th style="font-size:11px;color:black">Unit Size</th>
+                                        <th style="font-size:11px;color:black">Max No. of Pets</th>
+                                        @*Asked By Client to Remove*@
+                                        @*<th style="font-size:11px;color:black">Prop Image 1</th>
+        <th style="font-size:11px;color:black">Prop Image 2</th>
+        <th style="font-size:11px;color:black">Prop Image 3</th>
+        <th style="font-size:11px;color:black">Prop Image 4</th>
+        <th style="font-size:11px;color:black">Prop Image 5</th>
+        <th style="font-size:11px;color:black">Flore Plan </th>*@
+
+                                        <th style="font-size:11px;color:black">
+                                            Action
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr class="table-striped" style="font-size:10px;color:black">
+
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.Name)
+
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.PropertyAddress)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.City)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.State)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.VendorName)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.UnitSize)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 border-end" style="font-size:10px;color:black">
+                                                <div class="my-md-auto">
+
+                                                    @Html.DisplayFor(modelItem => item.MaxNoOfPets)
+
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        @*<td>
+            <div class="d-flex px-2 border-end">
+                <div class="my-sm-auto">
+
+                    @Html.DisplayFor(modelItem => item.City)
+
+                </div>
+            </div>
+
+
+        </td>*@
+                                        @*<td>
+            <div class="d-flex px-2 border-end" style="width:50px">
+                <div >
+
+                    @Html.DisplayFor(modelItem => item.PropertyDescription)
+
+                </div>
+            </div>
+
+
+        </td>*@
+                                        @*<td>
+            <div class="d-flex px-4 border-end">
+                <div class="my-auto">
+
+                    @if (item.BusinessCenterImage != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.BusinessCenterImage" data-fancybox="gallery" title=""><img src="~/Uploads/@item.BusinessCenterImage" alt="" /></a>
+                    }
+
+
+                </div>
+            </div>
+
+
+        </td>
+        <td>
+            <div class="d-flex px-4 border-end">
+                <div class="my-auto">
+
+
+                    @if (item.ElevatorFitnessImage != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.ElevatorFitnessImage" data-fancybox="gallery" title=""><img src="~/Uploads/@item.ElevatorFitnessImage" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+
+
+        <td>
+            <div class="d-flex px-4 border-end">
+                <div class="my-auto">
+                    @if (item.MailBoxImage != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.MailBoxImage" data-fancybox="gallery" title=""><img src="~/Uploads/@item.MailBoxImage" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+        <td>
+            <div class="d-flex px-4 border-end">
+                <div class="my-auto">
+                    @if (item.ParkingTypeImage != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.ParkingTypeImage" data-fancybox="gallery" title=""><img src="~/Uploads/@item.ParkingTypeImage" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+        <td>
+            <div class="d-flex px-4 border-end">
+                <div class="my-auto">
+                    @if (item.PoolImage != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.PoolImage" data-fancybox="gallery" title=""><img src="~/Uploads/@item.PoolImage" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+        <td>
+            <div class="d-flex px-2 border-end">
+                <div class="my-auto">
+
+                    @if (item.FloorPlanPic != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.FloorPlanPic" data-fancybox="gallery" title=""><img src="~/Uploads/@item.FloorPlanPic" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>*@
+                                        @*<td>
+            <div class="d-flex px-2 border-end">
+                <div class="my-auto">
+
+                    @if (item.FloorPlanPic1 != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.FloorPlanPic1" data-fancybox="gallery" title=""><img src="~/Uploads/@item.FloorPlanPic1" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+
+
+        <td>
+            <div class="d-flex px-2 border-end">
+                <div class="my-auto">
+                    @if (item.FloorPlanPic2 != "No Image")
+                    {
+                        <a class="fancybox" href="~/Uploads/@item.FloorPlanPic2" data-fancybox="gallery" title=""><img src="~/Uploads/@item.FloorPlanPic2" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>
+        <td>
+            <div class="d-flex px-2 border-end">
+                <div class="my-auto">
+                    @if (item.FloorPlanPic3 != "No Image")
+                    {
+
+                        <a class="fancybox" href="~/Uploads/@item.FloorPlanPic3" data-fancybox="gallery" title=""><img src="~/Uploads/@item.FloorPlanPic3" alt="" /></a>
+                    }
+                    </div>
+            </div>
+
+
+        </td>*@
+                                        <td>
+                                            <div class="d-flex px-2 border-end">
+                                                @if (ViewData["ProcessQuote"] == null)
+                                                {
+
+                                                    <div class="my-auto">
+
+
+                                                        <a href="/Setup/AddProperty/@item.PropertyId" class="btnLink" data-toggle="tooltip" title="Update Vendor"><i class="mdi mdi-lead-pencil"></i></a>
+
+                                                    </div>
+                                                    <div class="my-auto">
+
+
+
+                                                    </div>
+                                                    <div class="col-sm-1">
+
+                                                    </div>
+                                                    if (item.IsActive == true)
+                                                    {
+                                                        <div class="my-auto">
+
+                                                            <a href="/Setup/ActiveInactiveProperty/@item.PropertyId?IsActive=0" class="btnLink text-success" data-toggle="tooltip" title="Enable / Disable">Enabled</a>
+
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="my-auto">
+
+                                                            <a href="/Setup/ActiveInactiveProperty/@item.PropertyId?IsActive=1" class="btnLink text-danger" data-toggle="tooltip" title="Enable / Disable">Disabled</a>
+
+                                                        </div>
+                                                    }
+                                                }
+                                                @if (ViewData["ProcessQuote"] == "p")
+                                                {
+                                                    <div class="my-auto">
+
+                                                        <a href="/Setup/AddQuote/@ViewData["LeadId"]?PropertyId=@item.PropertyId" class="btnLink" data-toggle="tooltip" title="Select Property"><i class="mdi mdi-account-arrow-right-outline "></i></a>
+
+
+                                                    </div>
+
+                                                }
+                                            </div>
+
+                                        </td>
+
+
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+
+
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoComp');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Comp')
+        .on('order.dt', () => eventFired('Order'))
+        .on('search.dt', () => eventFired('Search'))
+        .on('page.dt', () => eventFired('Page'));
+
+    //new DataTable('#Comp').column(0).visible(true);
+    //new DataTable('#Comp').column(1).visible(true);
+
+    //new DataTable('#Comp').column(2).visible(true);
+    //new DataTable('#Comp').column(3).visible(false);
+    //new DataTable('#Comp').column(4).visible(false);
+    //new DataTable('#Comp').column(5).visible(false);
+    //new DataTable('#Comp').column(6).visible(false);
+    //new DataTable('#Comp').column(7).visible(false);
+    //new DataTable('#Comp').column(8).visible(false);
+    //new DataTable('#Comp').column(9).visible(false);
+    //new DataTable('#Comp').column(10).visible(false);
+    //new DataTable('#Comp').column(11).visible(false);
+    //new DataTable('#Comp').column(12).visible(false);
+    ////new DataTable('#Comp').column(13).visible(false);
+    
+
+    $("#btnshow").click(function () {
+        new DataTable('#Comp').draw();
+        new DataTable('#Comp').column(0).visible(false);
+        new DataTable('#Comp').column(1).visible(false);
+        new DataTable('#Comp').column(2).visible(false);
+        new DataTable('#Comp').column(3).visible(true);
+        new DataTable('#Comp').column(4).visible(true);
+        new DataTable('#Comp').column(5).visible(true);
+        new DataTable('#Comp').column(6).visible(true);
+        new DataTable('#Comp').column(7).visible(true);
+        new DataTable('#Comp').column(8).visible(true);
+        new DataTable('#Comp').column(9).visible(true);
+        new DataTable('#Comp').column(10).visible(true);
+        new DataTable('#Comp').column(11).visible(true);
+        new DataTable('#Comp').column(12).visible(true);
+        //new DataTable('#Comp').column(13).visible(true);
+        //table.column(12).visible(true);
+        $("#ShowImage").hide(true);
+        $("#Back").show(true);
+    });
+
+    $("#btnhide").click(function () {
+        //var table = $('#Comp').DataTable();
+        new DataTable('#Comp').column(0).visible(true);
+        new DataTable('#Comp').column(1).visible(true);
+        new DataTable('#Comp').column(2).visible(true);
+        new DataTable('#Comp').column(3).visible(false);
+        new DataTable('#Comp').column(4).visible(false);
+        new DataTable('#Comp').column(5).visible(false);
+        new DataTable('#Comp').column(6).visible(false);
+        new DataTable('#Comp').column(7).visible(false);
+        new DataTable('#Comp').column(8).visible(false);
+        new DataTable('#Comp').column(9).visible(false);
+        new DataTable('#Comp').column(10).visible(false);
+        new DataTable('#Comp').column(11).visible(false);
+        new DataTable('#Comp').column(12).visible(false);
+        //new DataTable('#Comp').column(13).visible(false);
+        //table.column(12).visible(false);
+        $("#Back").hide(true);
+        $("#ShowImage").show(true);
+    });
+
+    
+
+</script>
+
+
+@*@section Scripts{
+        <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+              type="text/css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+                type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <script language="javascript">
+
+            window.onload = function () {
+                document.getElementById('add').onclick = function () {
+                    document.getElementById('addsensor').style.display = 'block';
+                    return false;
+                };
+
+            };
+            //Alert Disable
+            //document.getElementById('mess').onclick = function () {
+            //    window.location.href = "/Sensor/AlertClose/";
+            //};
+            $("#mess").fadeTo(5000, 500).slideUp(500, function () {
+                $("#mess").slideUp(500);
+            });
+            $(function () {
+                $('#register').on('click', function () {
+                    $('.register-popup').dialog('open');
+                });
+                $('.register-popup').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    width: '280',
+                    height: '800',
+                    title: 'Register Here',
+                    buttons: {
+                        'Register Now!': function () {
+                            $.ajax({
+                                url: 'path/to/registration/controller',
+                                type: 'POST',
+                                data: $(this).find('form').serialize(),
+                                success: function (data) {
+                                    console.log('This is where the data is returned from your controller to the web page');
+                                    $(this).dialog('close');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        </script>
+    }*@

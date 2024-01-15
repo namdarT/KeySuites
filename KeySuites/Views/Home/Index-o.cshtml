@@ -1,0 +1,210 @@
+﻿@model IEnumerable<Vidly.Models.VwAppUserAsset>
+@{
+    ViewBag.Title = "Index_";
+}
+
+
+@*Bern	Lat 46.94792, Long 7.44461 *@
+
+
+<input  value="" id="mapdata" name="mapdata" />
+
+@*@using (Html.BeginForm("Search", "Home"))
+    {
+        <fieldset class="form">
+            <legend>SEARCH for closest document in the search engine using geo distance</legend>
+            <table width="800">
+                <tr>
+                    <th></th>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Search for closest: " style="width: 300px">
+                    </td>
+                    <td>
+                        <input type="hidden" value="@Model.CenterLongitude" id="centerLongitude" name="centerLongitude" />
+                        <input type="hidden" value="@Model.CenterLatitude" id="centerLatitude" name="centerLatitude" />
+
+                    </td>
+                    <td>
+                        <p style="width: 300px">Max distance in meter:</p>
+                        <input id="maxDistanceInMeter" name="maxDistanceInMeter" type="text" title="" value="@Model.MaxDistanceInMeter" style="width: 200px" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+    }*@
+
+<div class="row">
+    @*Bern	Lat 46.94792, Long 7.44461 *@
+    <div id="googleMap" style="width: 1000px; height: 800px;">
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td class="lst">jbb</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    @*<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markermanager/src/markermanager_packed.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>*@
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+    <script type="text/javascript" src="../dist/index.dev.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap&key=AIzaSyBO57NKba2iF6ZGlPm62-SE61F5UgYO2mY" async defer></script>
+
+    <script language="javascript" type="text/javascript">
+        var map;
+        var mgr;
+
+        function insertText($tdObject) {
+            alert($tdObject);
+            var newTextVal = $tdObject.text() == '2' ? 'Success' : 'Pending';
+            $tdObject.text(newTextVal);
+        }
+            function SensorDetail(url) {
+                window.location.href = url;
+                //$(this).closest('tr').find('#lst').val('kjhgfd');
+                //document.getElementById("mapdata").innerText = "hkdfkad";
+                //var col1 = 2;
+                //$("#lst").change(function () {
+                //    $(this).text(col1);
+                //});
+                
+                
+                //initialize();
+                //                alert("hahah");
+                
+                
+            }
+        
+        function initialize() {
+            var myOptions = {
+                zoom: 13,
+                center: new google.maps.LatLng(29.1992, -95.4061),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+            
+            @foreach (var place in Model) { <text>
+            var myLatLng = new google.maps.LatLng("@place.latitude", "@place.longitude");
+            var markerTitle = "@place.asset_name"; // input the monuments name from the database
+            var URL = "http://localhost:64968/" + "@place.asset_id";
+            switch ("@place.active_ind") {
+            case "0" :
+            var image='http://maps.google.com/mapfiles/kml/paddle/grn-circle.png' ;
+            break;
+            case "1" :
+            var image='http://maps.google.com/mapfiles/kml/paddle/red-circle.png' ;
+            break;
+            case "U" :
+            var image='http://maps.google.com/mapfiles/kml/paddle/blu-circle.png' ;
+            break;
+            default:
+            var image='http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png' ;
+            }
+            var myMarker = new google.maps.Marker({
+                position: myLatLng,
+                icon: image,
+                title: markerTitle,
+                url: URL,
+                map: map
+            });
+            //google.maps.event.addListener(map, 'click', function (event) {
+            //    //marker = new google.maps.Marker({
+                //    position: event.latLng,
+                //    map: map
+                //});
+                // on click, go to the monuments detail page
+            google.maps.event.addListener(myMarker, "click", function (event) {
+                //window.location.href = this.url;
+                SensorDetail(this.url);
+                insertText("#lst")
+                    //document.getElementById("#lst").val = value;
+                });
+            //}
+            // create the url to link to the monuments detail page
+        </text>    } return
+            //mgr = new google.maps.plugins.markermanager.MarkerManager(map, {});
+
+            //alert("mgr");
+            //var infoWindow = new google.maps.InfoWindow({ content: "contents" });
+            //google.maps.event.addListener(mgr, 'loaded', function () {
+
+            //    var modelData = $.parseJSON($("#mapdata").val());
+
+            //    var first = true;
+            //    $.each(modelData, function (entryIndex, entry) {
+            //        //alert("Data" + entry.DetailsCoordinates + ", " + entry.Details);
+
+            //        var htmlString = "<a href=\"" + entry.Details + "\">" + entry.Name + "</a>";
+            //        var coor = entry.DetailsCoordinates.toString();
+            //        var array = coor.split(',');
+            //        alert("coor");
+            //        // alert("Lat" + array[1] + "Long" + array[0]);
+            //        if (first) {
+            //            var marker = new google.maps.Marker({
+            //                position: new google.maps.LatLng(array[1], array[0]),
+            //                html: htmlString,
+            //                icon: "http://localhost:2765/Content/yourposition.png"
+            //            });
+            //            alert("first");
+            //            first = false;
+            //        } else {
+            //            var marker = new google.maps.Marker({
+            //                position: new google.maps.LatLng(array[1], array[0]),
+            //                html: htmlString
+            //            });
+            //            alert("second");
+            //        }
+
+
+            //        google.maps.event.addListener(marker, "click", function () {
+            //            infoWindow.setContent(this.html);
+            //            infoWindow.open(map, this);
+            //        });
+
+            //        mgr.addMarker(marker, 0);
+
+            //    });
+
+            //    // alert('homemarker: ' + $("#centerLatitude").val() + ' Current Lng: ' + $("#centerLongitude").val());
+
+            //    var homemarker = new google.maps.Marker({
+
+            //        position: new google.maps.LatLng($("#centerLatitude").val(), $("#centerLongitude").val()),
+            //        html: "YOU",
+            //        draggable: true,
+            //        icon: "http://localhost:2765/Content/ort.png"
+            //    });
+
+            //    google.maps.event.addListener(homemarker, 'dragend', function (evt) {
+            //        // alert('Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3));
+            //        $("#centerLongitude").val(evt.latLng.lng().toFixed(3));
+            //        $("#centerLatitude").val(evt.latLng.lat().toFixed(3));
+            //    });
+
+            //    mgr.addMarker(homemarker, 0);
+
+            //    mgr.refresh();
+            //});
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+}

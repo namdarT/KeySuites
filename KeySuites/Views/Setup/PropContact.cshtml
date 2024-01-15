@@ -1,0 +1,291 @@
+﻿
+@model Tuple<Vidly.Models.PropContact, IEnumerable<Vidly.Models.PropContact>>
+@{ ViewBag.Title = "New";
+    Layout = null; }
+@{
+    ViewData["Title"] = "Add Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Property Contact Lookup</h3>
+
+        </div>
+        @if (ViewData["Message"] != "" && ViewData["Message"] != null)
+        {
+            <div class="row" style="display:block">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="alert alert-warning" style="background-color:lightcoral" role="alert">
+                    @Html.Label("Error: " + ViewData["Message"].ToString(), new { @style = "color:black" })
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Contact</h4>
+
+                            @using (Html.BeginForm("PropContact", "Setup"))
+                            {
+
+
+                                <div class="row">
+                                    <div class="col-md-4 border-dark-light">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("First Name", new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.Item1.PropContactFirstName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Item1.PropContactFirstName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Last Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Item1.PropContactLastName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Item1.PropContactLastName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Email", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Item1.PropContactEmail, new { @class = "form-control border-dark", @type = "email", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.Item1.PropContactEmail)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Contact #", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Item1.PropContactNumber, new { @class = "form-control border-dark", @type = "tel", @placeholder = "e.g. (+1) 111 1111 OR (+1) 1111111 OR (+1)1111111", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Item1.PropContactNumber)
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <!--<div class="form-group label-floating">
+
+
+
+            @*<button href="/Setup/AddCompany" class="btn btn-primary btn-rounded btn-fw">
+
+                Add Company
+            </button>
+            <button type="button" class="btn btn-primary btn-rounded btn-fw" data-toggle="modal" data-target="#exampleModal">Select</button>*@
+
+        <!--</div>-->
+                                    </div>
+                                    <td>
+                                        
+                                        <div>
+                                            @*<div id="exampleModal" class="modal" tabindex="-1" role="dialog">*@
+                                                <div class="col-lg-12 grid-margin stretch-card">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Property Contact List</h4>
+                                                            <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
+
+                                                            <div class="table-responsive">
+                                                                <div id="demo_info" class="box" style="display:none"></div>
+                                                                <table id="conCoun" class="table table-striped" style="font-size:12px;color:black">
+                                                                    <thead>
+                                                                        <tr>
+
+
+                                                                            <th>First Name</th>
+
+                                                                            <th>Last Name</th>
+                                                                            <th>Email</th>
+                                                                            <th>Contact #</th>
+                                                                            <th>Action</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach (var item in Model.Item2)
+                                                                        {
+                                                                            <tr class="table-striped">
+
+                                                                                <td>
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.PropContactFirstName)
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.PropContactLastName)
+
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.PropContactEmail)
+
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.PropContactNumber)
+
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            <a href="/Setup/PropContact/@item.PropContactId" class="btnLink" data-toggle="tooltip" title="Update Referel"><i class="mdi mdi-lead-pencil"></i></a>
+
+                                                                                        </div>
+                                                                                        <div class="my-auto">
+
+
+
+                                                                                        </div>
+                                                                                        <div class="my-auto">
+
+                                                                                            <a href="/Setup/DeletePropContact/@item.PropContactId" class="btnLink" data-toggle="tooltip" title="Delete"><i class="mdi mdi-delete "></i></a>
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                            </tr>
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @*  </div>*@
+                                        </div>
+                                        @*<div class="col-md-4">
+                <div class="form-group label-floating">
+                    @Html.Label("IsActive", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                    @Html.CheckBoxFor(m => m.Item1.IsActive, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                </div>
+            </div>*@
+
+                                </div>
+                                <div class="row">
+
+                                </div>
+                                <div class="row">
+
+                                </div>
+                                <div class="row">
+
+                                </div>
+                                <div class="row">
+
+                                </div>
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.Item1.PropContactId)
+                                    <div class="col-md-12">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-primary btn-rounded btn-fw">
+
+                                            Save
+                                        </button>
+                                        <a href="/Setup/Add" class="btn btn-light btn-rounded btn-fw">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", ".classAdd", function () { //
+                var rowCount = $('.table-striped').length + 1;
+                var contactdiv = '<tr class="table-striped">' +
+                    '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactFirstName' + rowCount + '" class="form-control" /></div></td>' +
+                    '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactLastName' + rowCount + '" class="form-control " /></div></td>' +
+                    '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactEmail' + rowCount + '" class="form-control " /></div></td>' +
+                    '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactNumber' + rowCount + '" class="form-control " /></div></td>' +
+                    
+                    '<td><div class="d-flex px-2 border-end" ><button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs">Remove</button></div></td>' +
+                    '</tr>';
+                $('#conCoun').append(contactdiv); // Adding these controls to Main table class
+            });
+        });
+
+        $(document).on("click", ".deleteContact", function () {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+    </script>
+    
+
+    <script type="text/javascript">
+        function buttonclick(param) {
+            alert(param);
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#Item1_Company').val(param); //to put that value in your textbox.
+            $('#exampleModal').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+
+    </script>
+    @*@section scripts {
+            <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+                  type="text/css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+                    type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script>
+                $(function () {
+                    $(".selectpicker").selectpicker();
+                });
+            </script>
+        }*@

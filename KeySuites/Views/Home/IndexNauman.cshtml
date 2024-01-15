@@ -1,0 +1,903 @@
+﻿@model Tuple<IEnumerable<Vidly.Models.VwAppUserAsset>, Vidly.Models.VwAppUserAsset>
+@{
+    ViewData["Title"] = "Device Data List";
+
+
+}
+
+
+<div class="container-fluid">
+    <div class="card card-nav-tabs">
+        <div class="card-header bg-primary">
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title"></span>
+                    @*<ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="active">
+                                <a href="#profile" data-toggle="tab">
+                                    <i class="material-icons">bug_report</i>
+                                    Map
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#page2" data-toggle="tab">
+                                    <i class="material-icons">code</i>
+                                    Status
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#page1" data-toggle="tab">
+                                    <i class="material-icons">cloud</i>
+                                    Graph
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                        </ul>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="navbar nav-tabs-title">
+        <ul class="nav">
+            <li class="active divider-vertical">
+                <a href="#">Home</a>
+            </li>
+            <li class="divider-vertical"><a href="#">Link</a></li>
+            <li class="divider-vertical"><a href="#">Link</a></li>
+        </ul>
+        </div>*@
+    <div class="row">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                    <span class="ui-tabview-left-icon material-icons ng-star-inserted">navigation</span> Map
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                    <span class="ui-tabview-left-icon material-icons ng-star-inserted">donut_large</span>
+                    Status
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                    <span class="ui-tabview-left-icon material-icons ng-star-inserted">trending_up</span>Graph
+                </a>
+            </li>
+        </ul>
+        <div class="content">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                    <div class="col-md-4 pull-left iframe-container">
+                        <!-- embed code here -->
+                        <div class="card-content" id="googleMap" style=""></div>
+                    </div>
+                    <div class="col-md-4 pull-right sensor-info-container">
+                        <div class="card">
+                            <div class="card-header bg-primary">
+                                <h4 class="title">Sensor Information</h4>
+                                <p class="category">@Model.Item2.asset_name</p>
+                            </div>
+                            <div class="ct-area table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-warning">
+                                    <th style="color: darkslategrey"><b>Property</b></th>
+                                    <th style="color: darkslategrey"><b>Value</b></th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="lst">Last Reported</td>
+                                            <td>@Model.Item2.last_update_dt</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Serial Number :</td>
+                                            <td>@Model.Item2.deviceSN</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Series Number :</td>
+                                            <td>@Model.Item2.folder_Id</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Latitude :</td>
+                                            <td>@Model.Item2.latitude</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Longitude :</td>
+                                            <td>@Model.Item2.longitude</td>
+
+                                        </tr>
+                                        @if (Model.Item2.batteryStrength >= 5)
+                                        {
+                                            <tr>
+                                                <td>Battery Voltage :</td>
+                                                <td>@Model.Item2.batteryStrength<span>&nbsp;Volts&nbsp;&nbsp;&nbsp;</span><i data-background-color="green" class="material-icons alert-with-icon"> content_copy</i> Strong</td>
+
+                                            </tr>
+                                        }
+                                        else if (Model.Item2.batteryStrength < 5 && Model.Item2.batteryStrength >= 3)
+                                        {
+                                            <tr>
+                                                <td>Battery Voltage :</td>
+                                                <td>@Model.Item2.batteryStrength<span>&nbsp;Volts&nbsp;&nbsp;&nbsp;</span><i data-background-color="orange" class="material-icons alert-with-icon"> content_copy</i> Ok</td>
+
+                                            </tr>
+                                        }
+                                        else if (Model.Item2.batteryStrength < 3)
+                                        {
+                                            <tr>
+                                                <td>Battery Voltage :</td>
+                                                <td>@Model.Item2.batteryStrength<span>&nbsp;Volts&nbsp;&nbsp;&nbsp;</span><i data-background-color="red" class="material-icons alert-with-icon"> content_copy</i> Replace</td>
+
+                                            </tr>
+                                        }
+
+                                        @if (Model.Item2.signalStrength >= 80)
+                                        {
+                                            <tr>
+                                                <td>Signal Strength</td>
+                                                <td>@Model.Item2.signalStrength<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i data-background-color="green" class="material-icons alert-with-icon"> content_copy</i> Strong</td>
+
+                                            </tr>
+                                        }
+                                        else if (Model.Item2.signalStrength < 80 && Model.Item2.signalStrength >= 50)
+                                        {
+                                            <tr>
+                                                <td>Signal Strength</td>
+                                                <td>@Model.Item2.signalStrength<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i data-background-color="orange" class="material-icons alert-with-icon"> content_copy</i> Weak</td>
+
+                                            </tr>
+                                        }
+                                        else if (Model.Item2.signalStrength < 50)
+                                        {
+                                            <tr>
+                                                <td>Signal Strength</td>
+                                                <td>@Model.Item2.signalStrength<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i data-background-color="red" class="material-icons alert-with-icon"> content_copy</i> Poor</td>
+
+                                            </tr>
+                                        }
+
+
+                                        @*<tr>
+                                                <td>Battery Health</td>
+                                                <td>@Model.Item2.batteryTypeID<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i data-background-color="green" class="material-icons alert-with-icon"> content_copy</i> Ok</td>
+
+                                            </tr>*@
+                                        <tr>
+                                            <td colspan="2" align="center" class="bg-info"><b>Measurements</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ambient Temp :</td>
+                                            <td>@Model.Item2.temperature<span>&nbsp;&nbsp;&nbsp;</span>Deg F</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Water Level :</td>
+                                            <td>@Model.Item2.wet_water_level<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Feet</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Level Status :</td>
+                                            @if (Model.Item2.wet_water_level < 10)
+                                            {
+                                                <td>@Model.Item2.wet_water_level<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Feet</td>
+                                            }
+                                            else if (Model.Item2.wet_water_level > 10 && Model.Item2.wet_water_level < 30)
+                                            {
+                                                <td>@Model.Item2.wet_water_level<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Feet</td>
+                                            }
+                                            else if (Model.Item2.wet_water_level > 30)
+                                            {
+                                                <td>@Model.Item2.wet_water_level<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Feet</td>
+                                            }
+
+
+                                        </tr>
+                                        <tr><td><b>Thresholds</b></td></tr>
+                                        <tr>
+
+                                            <td data-background-color="red"></td>
+                                            <td>Active Flooding</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-background-color="orange"></td>
+                                            <td>
+                                                Potential Flooding <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-background-color="green"></td>
+                                            <td>
+                                                Safe
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                    Status Comming Soon......
+                </div>
+                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                    Graph Coming Soon .......
+                </div>
+                <div class="col-lg-6 col-md-12 hide">
+                    <div class="card">
+                        <div class="card-header" data-background-color="orange">
+                            <h4 class="title">Sensor List</h4>
+
+                        </div>
+                        <div class="card-content table-responsive">
+                            <table id="myTable" class="table table-hover">
+                                <thead class="text-warning">
+                                <th>Mrf.</th>
+                                <th>@Html.DisplayNameFor(model => model.Item1.ElementAt(0).asset_name)</th>
+                                <th>@Html.DisplayNameFor(model => model.Item1.ElementAt(0).deviceSN)</th>
+                                <th>@Html.DisplayNameFor(model => model.Item1.ElementAt(0).folder_Id)</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Item1)
+                                    {
+                                        <tr id=@Html.DisplayFor(modelItem => item.latitude) class="btnSelect">
+                                            <td>@Html.DisplayFor(modelItem => item.manufacturer_id)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.asset_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.deviceSN)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.folder_Id)</td>
+
+
+                                        </tr>
+                                        @*<tr>
+                                                <td>101</td>
+                                                <td>Angleton Level</td>
+                                                <td>4L832964</td>
+                                                <td>280041</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>103</td>
+                                                <td>Centron</td>
+                                                <td>4L732164</td>
+                                                <td>270647</td>
+
+                                            </tr>*@
+
+
+
+
+
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="tab-content">
+            <div class="tab-pane" id="page2">
+                <div class="col-lg-6 col-md-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row hide">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="orange">
+                <i class="material-icons">content_copy</i>
+            </div>
+            <div class="card-content">
+                <p class="category">Used Space</p>
+                <h3 class="title">49/50<small>GB</small></h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons text-danger">warning</i> <a href="#pablo">Get More Space...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="green">
+                <i class="material-icons">store</i>
+            </div>
+            <div class="card-content">
+                <p class="category">Revenue</p>
+                <h3 class="title">$34,245</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">date_range</i> Last 24 Hours
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="red">
+                <i class="material-icons">info_outline</i>
+            </div>
+            <div class="card-content">
+                <p class="category">Fixed Issues</p>
+                <h3 class="title">75</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Tracked from Github
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header" data-background-color="blue">
+                <i class="fa fa-twitter"></i>
+            </div>
+            <div class="card-content">
+                <p class="category">Followers</p>
+                <h3 class="title">+245</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">update</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row hide">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-chart" data-background-color="green">
+                <div class="ct-chart" id="dailySalesChart"></div>
+            </div>
+            <div class="card-content">
+                <h4 class="title">Daily Sales</h4>
+                <p class="category"><span class="text-success"><i class="fa fa-long-arrow-up"></i> 55%  </span> increase in today sales.</p>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-chart" data-background-color="orange">
+                <div class="ct-chart" id="emailsSubscriptionChart"></div>
+            </div>
+            <div class="card-content">
+                <h4 class="title">Email Subscriptions</h4>
+                <p class="category">Last Campaign Performance</p>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header card-chart" data-background-color="red">
+                <div class="ct-chart" id="completedTasksChart"></div>
+            </div>
+            <div class="card-content">
+                <h4 class="title">Completed Tasks</h4>
+                <p class="category">Last Campaign Performance</p>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row hide">
+    <div class="col-lg-6 col-md-12">
+        <div class="card card-nav-tabs">
+            <div class="card-header" data-background-color="purple">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <span class="nav-tabs-title">Tasks:</span>
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="active">
+                                <a href="#profile" data-toggle="tab">
+                                    <i class="material-icons">bug_report</i>
+                                    Bugs
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#messages" data-toggle="tab">
+                                    <i class="material-icons">code</i>
+                                    Website
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#settings" data-toggle="tab">
+                                    <i class="material-icons">cloud</i>
+                                    Server
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes" checked>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                    </td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes" checked>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Create 4 Invisible User Experiences you Never Knew About</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="messages">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes" checked>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                    </td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="settings">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes" checked>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                    </td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="optionsCheckboxes">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-12">
+        <div class="card">
+            <div class="card-header" data-background-color="orange">
+                <h4 class="title">Employees Stats</h4>
+                <p class="category">New employees on 15th September, 2016</p>
+            </div>
+            <div class="card-content table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Salary</th>
+                    <th>Country</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Dakota Rice</td>
+                            <td>$36,738</td>
+                            <td>Niger</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Minerva Hooper</td>
+                            <td>$23,789</td>
+                            <td>Curaçao</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Sage Rodriguez</td>
+                            <td>$56,142</td>
+                            <td>Netherlands</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Philip Chaney</td>
+                            <td>$38,735</td>
+                            <td>Korea, South</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+@*@section scripts {
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                // Javascript method's body can be found in assets/js/demos.js
+                demo.initDashboardPageCharts();
+
+            });
+
+
+            $(document).ready(function () {
+
+                // code to read selected table row cell data (values).
+                $("#myTable").on('click', '.btnSelect', function () {
+                    // get the current row
+                    var currentRow = $(this).closest("tr");
+                    var lati = $("#32.19");
+                    var col4 = lati.find("td:eq(0)").text();
+                    var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+                    var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+                    var col3 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
+                    var data = col1 + "\n" + col2 + "\n" + col3 + "\n" + lati + "\n" + col4;
+                    $('#lst').html(col2);
+                    var la = 30.7032;
+                    var lo = -96.3604;
+
+                    initMap(la, lo);
+                    alert(data);
+                    eqfeed_callback();
+                    window.initMap = initMap;
+
+                });
+
+                var row = document.getElementById("30.19");
+                var Cells = Row.find("td:eq(0)").text();
+                aler(Cells);
+                //window.initMap = initMap;
+                eqfeed_callback();
+                window.initMap = initMap;
+            });
+        </script>
+
+
+
+    }*@
+@section scripts
+        {
+
+
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>*@
+    @*<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>*@
+
+    @*<script type="text/javascript" src="../dist/index.dev.js"></script>*@
+
+    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBO57NKba2iF6ZGlPm62-SE61F5UgYO2mY"></script>
+
+    <script language="javascript" type="text/javascript">
+                var map;
+                var mgr;
+                        @*@{
+
+                            var parameters = new RouteValueDictionary();
+                            parameters.Add("latitude", Model.Item1.ElementAt(0).latitude);
+
+                        }*@
+                    function insertText($tdObject) {
+                    //alert($tdObject);
+                    var newTextVal = $tdObject.text() == '2' ? 'Success' : 'Pending';
+                    $tdObject.text(newTextVal);
+                }
+                    function SensorDetail(url, lat) {
+                        //alert(lat);
+
+                        window.location.href = url;
+                        //$(this).closest('tr').find('#lst').val('kjhgfd');
+                        //document.getElementById("mapdata").innerText = "hkdfkad";
+                        var col1 = 2;
+                        $("#lst").change(function () {
+                            $(this).text(col1);
+                        });
+
+
+                        initialize();
+                                        //alert("hahah");
+
+
+                    }
+
+                function initialize() {
+                    var myOptions = {
+                        zoom: 17,
+                        center: new google.maps.LatLng(29.1992, -95.4061),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+
+                    @foreach (var place in Model.Item1) { <text>
+                    var myLatLng = new google.maps.LatLng("@place.latitude", "@place.longitude");
+                    var markerTitle = "@place.asset_name"; // input the monuments name from the database
+                    var URL = "http://localhost:64968/Home/Index/" + "@place.asset_id";
+                    //var URL = @Url.Action("Index", "Home" , place.latitude);
+                    switch ("@place.active_ind") {
+                    case "0" :
+                    var image='http://maps.google.com/mapfiles/kml/paddle/grn-circle.png' ;
+                    break;
+                    case "1" :
+                    var image='http://maps.google.com/mapfiles/kml/paddle/red-circle.png' ;
+                    break;
+                    case "U" :
+                    var image='http://maps.google.com/mapfiles/kml/paddle/blu-circle.png' ;
+                    break;
+                    default:
+                    var image='http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png' ;
+                    }
+                    var myMarker = new google.maps.Marker({
+                        position: myLatLng,
+                        icon: image,
+                        title: markerTitle,
+                        url: URL,
+                        map: map
+                    });
+                    //google.maps.event.addListener(map, 'click', function (event) {
+                    //    //marker = new google.maps.Marker({
+                        //    position: event.latLng,
+                        //    map: map
+                        //});
+                        // on click, go to the monuments detail page
+                    google.maps.event.addListener(myMarker, "click", function (event) {
+                        //window.location.href = this.url;
+                        SensorDetail(this.url, @place.latitude);
+                        insertText("#lst");
+                            //document.getElementById("#lst").val = value;
+                        });
+                    //}
+                    // create the url to link to the monuments detail page
+                </text>    } return
+                    //mgr = new google.maps.plugins.markermanager.MarkerManager(map, {});
+
+                    //alert("mgr");
+                    //var infoWindow = new google.maps.InfoWindow({ content: "contents" });
+                    //google.maps.event.addListener(mgr, 'loaded', function () {
+
+                    //    var modelData = $.parseJSON($("#mapdata").val());
+
+                    //    var first = true;
+                    //    $.each(modelData, function (entryIndex, entry) {
+                    //        //alert("Data" + entry.DetailsCoordinates + ", " + entry.Details);
+
+                    //        var htmlString = "<a href=\"" + entry.Details + "\">" + entry.Name + "</a>";
+                    //        var coor = entry.DetailsCoordinates.toString();
+                    //        var array = coor.split(',');
+                    //        alert("coor");
+                    //        // alert("Lat" + array[1] + "Long" + array[0]);
+                    //        if (first) {
+                    //            var marker = new google.maps.Marker({
+                    //                position: new google.maps.LatLng(array[1], array[0]),
+                    //                html: htmlString,
+                    //                icon: "http://localhost:2765/Content/yourposition.png"
+                    //            });
+                    //            alert("first");
+                    //            first = false;
+                    //        } else {
+                    //            var marker = new google.maps.Marker({
+                    //                position: new google.maps.LatLng(array[1], array[0]),
+                    //                html: htmlString
+                    //            });
+                    //            alert("second");
+                    //        }
+
+
+                    //        google.maps.event.addListener(marker, "click", function () {
+                    //            infoWindow.setContent(this.html);
+                    //            infoWindow.open(map, this);
+                    //        });
+
+                    //        mgr.addMarker(marker, 0);
+
+                    //    });
+
+                    //    // alert('homemarker: ' + $("#centerLatitude").val() + ' Current Lng: ' + $("#centerLongitude").val());
+
+                    //    var homemarker = new google.maps.Marker({
+
+                    //        position: new google.maps.LatLng($("#centerLatitude").val(), $("#centerLongitude").val()),
+                    //        html: "YOU",
+                    //        draggable: true,
+                    //        icon: "http://localhost:2765/Content/ort.png"
+                    //    });
+
+                    //    google.maps.event.addListener(homemarker, 'dragend', function (evt) {
+                    //        // alert('Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3));
+                    //        $("#centerLongitude").val(evt.latLng.lng().toFixed(3));
+                    //        $("#centerLatitude").val(evt.latLng.lat().toFixed(3));
+                    //    });
+
+                    //    mgr.addMarker(homemarker, 0);
+
+                    //    mgr.refresh();
+                    //});
+                }
+
+                google.maps.event.addDomListener(window, 'load', initialize);
+        //addEventListener(window, 'load', initialize);
+    </script>
+}

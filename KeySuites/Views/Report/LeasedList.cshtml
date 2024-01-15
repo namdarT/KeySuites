@@ -1,0 +1,307 @@
+﻿
+
+@model IEnumerable<Vidly.Models.LeasedList>
+@{
+    ViewData["Title"] = "Leased List";
+
+}
+
+@*<div class="row">
+
+        <div class="col-sm-10"></div>
+
+        <div class="col-sm-2">
+            <button class="btn-primary btn btn-block widthAuto marginTop32 marginLeft8">
+            </button>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+
+        <div class="col-sm-10"><h5>Vendors Definition</h5></div>
+
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+
+    <hr />*@
+<!--<div class="row">
+
+    <div class="col-md-12">
+        <button onClick="window.location.reload();">
+
+            <i class="material-icons">refresh</i>
+
+        </button>-->
+@*<button id="add" data-target="addpanl">
+        <i class="material-icons">add</i>
+        <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+    </button>*@
+<!--</div>
+
+
+
+</div>-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Yearly Leased Report</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item active" aria-current="page"> Leased </li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["SuccessMessage"] != "" && ViewData["SuccessMessage"] != null)
+        {
+            <div id="mess" class="row" style="display:block">
+
+                <div class="alert alert-success" role="alert">
+                    <strong>Alert!</strong><hr />
+                    @Html.Label("" + ViewData["SuccessMessage"].ToString(), new { @style = "color:pink" })
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        @*<h4 class="card-title">Unit List</h4>
+                            <p class="card-description">
+                                Each Property <code>Status Report</code>
+                            </p>*@
+                        <div class="row">
+                            @using (Html.BeginForm("LeasedList", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.Label("Year", new { @class = "control-label" })
+                                        @Html.DropDownList("Year", ViewBag.Year as IEnumerable<SelectListItem>, new { @class = "  dropdown", @style = "font-size:12px;color:black;border-radius:10px" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-primary btn-rounded btn-fw">
+
+                                        Search
+                                    </button>
+
+                                </div>
+                            }
+
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("ExportLeasedList", "Report", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="GridHtml" />
+                                    <input type="submit" id="btnSubmit" class="btn btn-primary btn-rounded btn-fw" value="Export to Excel" />
+                                }
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div id="table" class="table-responsive">
+                            <div id="demo_infoComp" class="box" style="display:none"></div>
+                            <table id="Comp" class="display" style="font-size:12px;color:black">
+                                <thead>
+                                    <tr>
+                                        @*<th width="10%" >
+                        @Html.DisplayName("Attribute")
+                    </th>*@
+                                        <th>Reservation</th>
+                                        <th>Qoute</th>
+                                        <th>Description</th>
+                                        <th>Ocupant</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Total Stay</th>
+                                        <th>Charges</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="table-striped">
+                                            @*<td>
+                            <div class="d-flex px-2 border-end">
+                                <div class="my-auto">
+                                    Rain Meter
+                                </div>
+                            </div>
+
+                        </td>*@
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        <a href="/Setup/AddReservation/@item.RId">R-@Html.DisplayFor(modelItem => item.RId)</a>
+
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        <a href="/Setup/AddQuote/@item.QouteId">Q-@Html.DisplayFor(modelItem => item.QouteId)</a>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        <a href="/Setup/AddProperty/@item.PropertyId">@Html.DisplayFor(modelItem => item.PropertyDescription)</a>
+
+                                                    </div>
+                                                </div>
+
+                                            </td>
+
+
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+
+                                                        @Html.DisplayFor(modelItem => item.OcupantName)
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+
+                                                        @Html.DisplayFor(modelItem => item.LeaseStartDate)
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+
+                                                        @Html.DisplayFor(modelItem => item.LeaseEndDate)
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+
+                                                        @Html.DisplayFor(modelItem => item.TotalOneTime).ToString()
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+
+                                                        @Html.DisplayFor(modelItem => item.TotalMonthly)
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+
+
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoComp');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Comp')
+        .on('order.dt', () => eventFired('Order'))
+        
+        .on('page.dt', () => eventFired('Page'));
+
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#FromDate").datepicker();
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#ToDate").datepicker();
+
+    });
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {
+            $("input[name='GridHtml']").val($("#table").html());
+        });
+    });
+</script>

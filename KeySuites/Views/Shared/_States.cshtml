@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Vidly.Models.States>
+@{
+    ViewBag.Title = "View";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<
+
+    <div class="table-responsive">
+        <div id="demo_infoVendor" class="box" style="display:none"></div>
+        <table id="Vendor" class="display" style="font-size:12px;color:black">
+            <thead>
+                <tr>
+
+
+                    <th>Code</th>
+
+                    <th>Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr class="table-striped">
+
+                        <td>
+                            <a onclick="buttonclickStates('@item.Code', '@item.Name')" class="btnLink" data-toggle="tooltip" title="Select States">
+                                <div class="d-flex px-2 border-end">
+                                    <div class="my-auto">
+
+                                        @Html.DisplayFor(modelItem => item.Code)
+
+</div>
+                            </div>
+                    </a>
+
+                        </td>
+
+                        <td>
+                            <a onclick="buttonclickStates('@item.Code', '@item.Name')" class="btnLink" data-toggle="tooltip" title="Select States">
+                                <div class="d-flex px-2 border-end">
+                                    <div class="my-auto">
+
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    </div>
+                                </div>
+
+                                </a>
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+<script>
+
+
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoVendor');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Vendor')
+        .on('order.dt', () => eventFired('Order'))
+        .on('search.dt', () => eventFired('Search'))
+        .on('page.dt', () => eventFired('Page'));
+
+
+
+</script>
+
+<script>
+    function buttonclickStates(param, param1) {
+        //you can access that value using the variable param.
+        //Or you can give any name of your choice.
+        $('#Code').val(param); //to put that value in your textbox.
+
+        $('#exampleModal').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+    }
+</script>

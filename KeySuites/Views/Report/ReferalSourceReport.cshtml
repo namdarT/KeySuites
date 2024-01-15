@@ -1,0 +1,336 @@
+﻿
+
+@model IEnumerable<Vidly.Models.ReferalSourceReport>
+@{
+    ViewData["Title"] = "Referel Sources";
+
+}
+
+@*<div class="row">
+
+        <div class="col-sm-10"></div>
+
+        <div class="col-sm-2">
+            <button class="btn-primary btn btn-block widthAuto marginTop32 marginLeft8">
+            </button>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+
+        <div class="col-sm-10"><h5>Vendors Definition</h5></div>
+
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+
+    <hr />*@
+<!--<div class="row">
+
+    <div class="col-md-12">
+        <button onClick="window.location.reload();">
+
+            <i class="material-icons">refresh</i>
+
+        </button>-->
+@*<button id="add" data-target="addpanl">
+        <i class="material-icons">add</i>
+        <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+    </button>*@
+<!--</div>
+
+
+
+</div>-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Referels</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item active" aria-current="page"> Referels </li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["SuccessMessage"] != "" && ViewData["SuccessMessage"] != null)
+        {
+            <div id="mess" class="row" style="display:block">
+
+                <div class="alert alert-success" role="alert">
+                    <strong>Alert!</strong><hr />
+                    @Html.Label("" + ViewData["SuccessMessage"].ToString(), new { @style = "color:pink" })
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Referel Source Report</h4>
+
+                        <div class="row">
+                            @using (Html.BeginForm("ReferalSourceReport", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.Label("From Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @*@Html.EditorFor(m => m.First().FromDate, new { @class = "form-control border-dark", @type = "date", @style = "border-radius:10px", @required = "required" })*@
+                                        @Html.TextBoxFor(m => m.First().FromDate, "{0:s}", new { @class = "form-control border-dark", @type = "datetime-local", @style = "border-radius:10px", @required = "required" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.Label("To Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @*@Html.EditorFor(m => m.First().ToDate, new { @class = "form-control border-dark", @type = "date", @style = "border-radius:10px", @required = "required" })*@
+                                        @Html.TextBoxFor(m => m.First().ToDate, "{0:s}", new { @class = "form-control border-dark", @type = "datetime-local", @style = "border-radius:10px", @required = "required" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-primary btn-rounded btn-fw">
+
+                                        Search
+                                    </button>
+                                </div>
+                            }
+
+                            <div class="col-md-6">
+                                @using (Html.BeginForm("ExportReferalSource", "Report", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="GridHtml" />
+                                    <input type="submit" id="btnSubmit" class="btn btn-primary btn-rounded btn-fw" value="Export to Excel" />
+                                }
+                            </div>
+                            <hr />
+
+                            <div class="col-md-6">
+
+                                @Html.Label("Selected From Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                @Html.TextBoxFor(m => m.First().FromDate, new { @class = "control-label", @readonly = "true", @style = "font-size:12px;color:black" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Selected To Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                @Html.TextBoxFor(m => m.First().ToDate, new { @class = "control-label", @readonly = "true", @style = "font-size:12px;color:black" })
+                            </div>
+
+                        </div>
+
+                        <div id="table" class="table-responsive">
+                            <div id="demo_infoComp" class="box" style="display:none"></div>
+                            <table id="Comp" class="display" style="font-size:12px;color:black">
+                                <thead>
+                                    <tr>
+                                        @*<th width="10%" >
+                        @Html.DisplayName("Attribute")
+                    </th>*@
+
+                                        <th>Name</th>
+
+                                        <th>Address</th>
+                                        <th>Type</th>
+                                        <th>Amount/Percentage</th>
+                                        <th>No of Reservations</th>
+                                        <th style="display:none">Properties Total Rent</th>
+                                        <th style="display:none">Share Amount</th>
+                                        <th>Final Amount</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="table-striped">
+                                            @*<td>
+                            <div class="d-flex px-2 border-end">
+                                <div class="my-auto">
+                                    Rain Meter
+                                </div>
+                            </div>
+
+                        </td>*@
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        <a href="/Setup/AddReferel/@item.ReferalSourceId" class="btnLink" data-toggle="tooltip" title="Referal Detail"> @Html.DisplayFor(modelItem => item.CompanyName) </a>
+
+                                                    </div>
+                                                </div>
+
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.Address)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.ReferalType)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.Number)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.NoOfReservation)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                            <td style="display:none">
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.PropertiesRent)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                            <td style="display:none">
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.ShareAmount)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex px-2 border-end">
+                                                    <div class="my-auto">
+
+                                                        @Html.DisplayFor(modelItem => item.TotalFinalAmount)
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+<script>
+
+
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoComp');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Comp')
+        .on('order.dt', () => eventFired('Order'))
+        .on('search.dt', () => eventFired('Search'))
+        .on('page.dt', () => eventFired('Page'));
+
+
+
+</script>
+
+@*<script>
+    $(document).ready(function () {
+        $("#FromDate").datepicker({
+            dateFormat: "dd-mm-yy HH:mm:ss",
+            changemonth: true,
+            changeyear: true,
+            changetime: true
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#ToDate").datepicker({
+            dateFormat: "dd-mm-yy HH:mm:ss",
+            changemonth: true,
+            changeyear: true,
+            changetime: true
+        });
+    });
+</script>*@
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {
+            $("input[name='GridHtml']").val($("#table").html());
+        });
+    });
+</script>

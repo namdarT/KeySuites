@@ -1,0 +1,989 @@
+﻿
+@model Vidly.Models.Lead
+@{ ViewBag.Title = "New";
+    Layout = null; }
+@{
+    ViewData["Title"] = "Add Lead";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Add Lead</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Setup/Leads">Leads</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Add Leads </li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["Message"] != "" && ViewData["Message"] != null)
+        {
+            <div class="row" style="display:block">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="alert alert-warning" style="background-color:lightcoral" role="alert">
+                    @Html.Label("Error: " + ViewData["Message"].ToString(), new { @style = "color:black" })
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            @using (Html.BeginForm("AddLead", "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Contact Type", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.DropDownList("ContactType", ViewBag.ContactType as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })
+                                            @Html.ValidationMessageFor(m => m.ContactType)
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div id="CompanyInfo">
+                                    <hr />
+                                    <h4 class="card-title text-info">Company Info </h4>
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Company Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.LeadsName, new { @class = "form-control border-dark", @type = "varchar", @readonly = true, @style = "border-radius:10px", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.LeadsName)
+                                                @*<a href="/Setup/AddCompany" class="btnLink" data-toggle="tooltip" title="New Company"><i class=" mdi  mdi-account-check"></i></a>*@
+                                                <a class="btnLink" data-toggle="modal" data-target="#exampleModalCompany" title="Select Company"><i class=" bg-info mdi mdi-search-web"></i></a>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Company Phone Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.CompanyContactNumber, new { @class = "form-control border-dark", @readonly = true, @type = "email", @step = "any", @style = "border-radius:10px" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Contact Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control border-dark", @readonly = true, @type = "tel", @step = "any", @style = "border-radius:10px" })
+                                                @*<a href="/Setup/AddContact" class="btnLink" data-toggle="tooltip" title="New Contact"><i class=" mdi  mdi-account-check"></i></a>*@
+                                                <a class="btnLink" id="contactSelect" data-toggle="modal" data-target="#exampleModalContact" title="Select Contact"><i class=" bg-info mdi mdi-search-web"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Contact Phone Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.ContactNumberCompany, new { @class = "form-control border-dark", @readonly = true, @type = "tel", @step = "any", @style = "border-radius:10px" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr />
+
+                                <div id="OccupantInfo">
+                                    <h4 class="card-title text-info">Occupant Info</h4>
+                                </div>
+                                <div id="IndividualInfo">
+                                    <h4 class="card-title text-info">Individual Info</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.OcupantName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px;background-color:oldlace", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.OcupantName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Email", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control border-dark", @type = "email", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.ContactEmail)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Address 1", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.Address)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Phone Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control border-dark", @type = "varchar", @placeholder = "e.g.(234)-123-4657 or +1-212-456-7890", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.ContactNumber)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Address 2", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Address2, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.Address2)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("City", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.OccupantCity, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.OccupantCity)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("State", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.OccupantState, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModalStates2" title="Select State"><i class=" bg-info mdi mdi-search-web" style="font-size:large"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating ">
+                                            @Html.Label("Zip", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.OccupantZip, new { @class = "form-control border-dark", @type = "number", @value = "75881", @onkeypress = "return allowNumberOnly2(event)", @style = "border-radius:10px" })
+                                            <div id="savealert2" class="alert alert-warning" style="background-color:lightcoral; display:none" role="alert">
+                                                @Html.Label("Zip code must be valid", new { @style = "color:black" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("No of Adults", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @*@Html.TextBoxFor(m => m.NoOfAdults, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px" })*@
+                                            @Html.DropDownList("NoOfAdults", ViewBag.NoOfAdults as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("No of Children", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @*@Html.TextBoxFor(m => m.NoOfChildren, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px" })*@
+                                            @Html.DropDownList("NoOfChildren", ViewBag.NoOfChildren as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Pet Info</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Breed Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Breed, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("No of Pets", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @* @Html.TextBoxFor(m => m.NoOfPets, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px" })*@
+                                            @*@Html.DropDownList("NoOfPets", ViewBag.NoOfPets as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })*@
+                                            @Html.TextBoxFor(m => m.NoOfPets, new { @class = "form-control border-dark", @type = "number", @min = "0", @max = @"50", @step = "1", @placeholder = "e.g. 1", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.NoOfPets)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Breed Weight (KG)", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Weight, new { @class = "form-control border-dark", @type = "number", @min = "0", @max = @"50.5", @step = "0.5", @placeholder = "e.g. 0.5", @style = "border-radius:10px" })
+                                            @*@Html.DropDownList("Weight", ViewBag.Weight as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <h4 class="card-title text-info">Location</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Preferred Area", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PreferedArea, new { @class = "form-control border-dark", @type = "varchar", @step = "any", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Preferred Address", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PreferedAddress, new { @class = "form-control border-dark", @type = "varchar", @step = "any", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("City", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            @*@Html.DropDownList("City", ViewBag.City as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })*@
+                                            @Html.TextBoxFor(m => m.City, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.City)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("State", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.State, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModalStates" title="Select State"><i class=" bg-info mdi mdi-search-web" style="font-size:large"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Zip", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Zip, new { @class = "form-control border-dark", @type = "number", @value = "75881", @onkeypress = "return allowNumberOnly(event)", @style = "border-radius:10px" })
+                                            <div id="savealert" class="alert alert-warning" style="background-color:lightcoral; display:none" role="alert">
+                                                @Html.Label("Zip code must be valid", new { @style = "color:black" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Preferences</h4>
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor Preference", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.FloorPreference, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.FloorPreference)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Lease Term", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @*@Html.DropDownList("LeaseTerm", ViewBag.LeaseTerm as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })*@
+                                            @Html.TextBoxFor(m => m.LeaseTerm, new { @class = "form-control border-dark", @type = "number", @min = "30", @max = @"500", @step = "1", @placeholder = "e.g. 30", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.LeaseTerm)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("No of Bed Rooms", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @*@Html.TextBoxFor(m => m.NoOfBedRooms, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px", @required = "required" })*@
+                                            @Html.DropDownList("NoOfBedRooms", ViewBag.NoOfBedRooms as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })
+                                            @Html.ValidationMessageFor(m => m.NoOfBedRooms)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Move In Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.MoveInDate, "{0:yyyy-MM-dd}", new { @class = "form-control border-dark", @type = "date", @style = "font-size:12px;color:black;border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.MoveInDate)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div id="exampleModalStates" class="modal" tabindex="-1" role="dialog">
+                                        <div class="col-lg-12 grid-margin stretch-card">
+                                            <div class="card">
+
+                                                <div class="card-body">
+                                                    <h4 class="card-title">States Lookup</h4>
+                                                    @Html.Partial("_States", (IEnumerable<Vidly.Models.States>)ViewBag.States)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="exampleModalStates2" class="modal" tabindex="-1" role="dialog">
+                                        <div class="col-lg-12 grid-margin stretch-card">
+                                            <div class="card">
+
+                                                <div class="card-body">
+                                                    <h4 class="card-title">States Lookup</h4>
+                                                    <div class="table-responsive">
+                                                        <div id="demo_infoVendor" class="box" style="display:none"></div>
+                                                        <table id="States2" class="display" style="font-size:12px;color:black">
+                                                            <thead>
+                                                                <tr>
+
+
+                                                                    <th>Code</th>
+
+                                                                    <th>Name</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @foreach (var item in (IEnumerable<Vidly.Models.States>)ViewBag.States)
+                                                                {
+                                                                    <tr class="table-striped">
+
+                                                                        <td>
+                                                                            <a onclick="buttonclickStates2('@item.Code', '@item.Name')" class="btnLink" data-toggle="tooltip" title="Select States">
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        @Html.DisplayFor(modelItem => item.Code)
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a onclick="buttonclickStates2('@item.Code', '@item.Name')" class="btnLink" data-toggle="tooltip" title="Select States">
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </a>
+                                                                        </td>
+
+
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                //Referal Sources Search
+
+                                <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                                    <div class="col-lg-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Referel Source Lookup</h4>
+
+                                                <a href="/Setup/AddReferel" class="btn btn-primary btn-rounded btn-fw">
+
+                                                    Add Referel Sources
+                                                </a>
+                                                <div class="table-responsive">
+                                                    <div id="demo_info" class="box" style="display:none"></div>
+                                                    <table id="refPop" class="display" style="font-size:12px;color:black">
+                                                        <thead>
+                                                            <tr>
+
+
+                                                                <th>Company Name</th>
+
+                                                                <th>Address</th>
+                                                                <th>Type</th>
+                                                                <th>Amount/Percentage</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in (IEnumerable<Vidly.Models.ReferalSource>)ViewBag.ReferelSource)
+                                                            {
+                                                                <tr class="table-striped">
+
+                                                                    <td>
+                                                                        <a onclick="buttonclick('@item.CompanyName')" class="btnLink" data-toggle="tooltip" title="Select Referel">
+                                                                            <div class="d-flex px-2 border-end">
+                                                                                <div class="my-auto">
+
+                                                                                    @Html.DisplayFor(modelItem => item.CompanyName)
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <a onclick="buttonclick('@item.CompanyName')" class="btnLink" data-toggle="tooltip" title="Select Referel">
+                                                                            <div class="d-flex px-2 border-end">
+                                                                                <div class="my-auto">
+
+                                                                                    @Html.DisplayFor(modelItem => item.Address)
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <a onclick="buttonclick('@item.CompanyName')" class="btnLink" data-toggle="tooltip" title="Select Referel">
+                                                                            <div class="d-flex px-2 border-end">
+                                                                                <div class="my-auto">
+
+                                                                                    @Html.DisplayFor(modelItem => item.ReferalType)
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <a onclick="buttonclick('@item.CompanyName')" class="btnLink" data-toggle="tooltip" title="Select Referel">
+                                                                            <div class="d-flex px-2 border-end">
+                                                                                <div class="my-auto">
+
+                                                                                    @Html.DisplayFor(modelItem => item.Number)
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+
+                                                                    </td>
+
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+                                    @*@Html.DropDownList("ReferelSource", ViewBag.ReferelSource as IEnumerable<SelectListItem>, new { @class = "  dropdown" })*@
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-lg-2">
+
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Elevator", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.DropDownList("Elevator", ViewBag.Elevator as IEnumerable<SelectListItem>, new { @class = "  btn btn-success", @style = "font-size:12px;color:black" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Referral Source", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ReferelSource, new { @class = "form-control border-dark", @readonly = true, @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.ReferelSource)
+                                            @*<a href="/Setup/AddReferel" class="btnLink" data-toggle="tooltip" title="New Referal"><i class=" mdi  mdi-account-check"></i></a>*@
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModal" title="Select Referal"><i class=" bg-info mdi mdi-search-web"></i></a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Notes", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextAreaFor(m => m.Notes, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div id="exampleModalCompany" class="modal" tabindex="-1" role="dialog">
+                                            <div class="col-lg-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Company Lookup</h4>
+
+
+                                                        <div class="table-responsive">
+                                                            <div id="demo_infoComp" class="box" style="display:none"></div>
+                                                            <table id="Comp" class="display" style="font-size:12px;color:black">
+                                                                <thead>
+                                                                    <tr>
+
+
+                                                                        <th>Company Name</th>
+
+                                                                        <th>Address</th>
+                                                                        <th>Website</th>
+                                                                        <th>Company Contact</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var item in (IEnumerable<Vidly.Models.Company>)ViewBag.Company)
+                                                                    {
+                                                                        <tr class="table-striped">
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickCompany('@item.CompanyName', '@item.CompanyContact')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.CompanyName)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickCompany('@item.CompanyName', '@item.CompanyContact')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Address)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <a onclick="buttonclickCompany('@item.CompanyName', '@item.CompanyContact')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Website)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickCompany('@item.CompanyName', '@item.CompanyContact')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.CompanyContact)
+
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </a>
+                                                                            </td>
+
+
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div id="exampleModalContact" class="modal" tabindex="-1" role="dialog">
+                                            <div class="col-lg-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Contact Lookup</h4>
+
+
+                                                        <div class="table-responsive">
+                                                            <div id="demo_infoConCoun" class="box" style="display:none"></div>
+                                                            <table id="conCoun" class="display" style="font-size:12px;color:black">
+                                                                <thead>
+                                                                    <tr>
+
+
+                                                                        <th>Contact Name</th>
+
+                                                                        <th>Address</th>
+                                                                        <th>Email</th>
+                                                                        <th>Company</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    @foreach (var item in (IEnumerable<Vidly.Models.Contact>)ViewBag.Contact)
+                                                                    {
+                                                                        <tr class="table-striped">
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickContact('@item.FirstName  @item.LastName', '@item.Phone')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.FirstName)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickContact('@item.FirstName  @item.LastName', '@item.Phone')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Address)
+
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>
+                                                                                <a onclick="buttonclickContact('@item.FirstName  @item.LastName', '@item.Phone')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Email)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickContact('@item.FirstName  @item.LastName', '@item.Phone')" class="btnLink" data-toggle="tooltip" title="Select Company">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Company)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+
+                                                                            </td>
+
+
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.LeadsId)
+                                    <div class="col-md-12">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-primary btn-rounded btn-fw" onclick="return zipcheck()">
+
+                                            Save
+                                        </button>
+                                        <a href="/Setup/Leads" class="btn btn-light btn-rounded btn-fw">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        //$(document).on('click', "#contactSelect", function () {
+
+
+
+        //$('#conCoun').DataTable().columns(3).search('amb').draw();
+        //});
+        //var table = $('#conCoun').DataTable();
+        //$('#LeadsName').on('keyup', function () {
+        //    table.search(this.value).draw();
+        //});
+    </script>
+
+    <script>
+        function buttonclickStates(param, param1) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#State').val(param); //to put that value in your textbox.
+
+            $('#exampleModalStates').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>
+
+    <script>
+        function buttonclickStates2(param, param1) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#OccupantState').val(param); //to put that value in your textbox.
+
+            $('#exampleModalStates2').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>
+    <script type="text/javascript">
+
+        function zipcheck() {
+            var vall1 = $('#Zip').val()
+            var vall2 = $('#OccupantZip').val()
+            //alert(vall1.length);
+            //alert(monthlyKSProfit);
+            
+            if (vall1.length > 0 && vall1.length < 5) {
+                //alert(vall1.length);
+                document.getElementById('savealert').style.display = 'block'
+
+                return false;
+            }
+            else {
+                document.getElementById('savealert').style.display = 'none'
+
+            }
+
+
+            if (vall2.length > 0 && vall2.length < 5) {
+
+                document.getElementById('savealert2').style.display = 'block'
+                return false;
+            }
+            else {
+                document.getElementById('savealert2').style.display = 'none'
+
+            }
+        }
+
+    </script>
+    
+
+    <script>
+        function allowNumberOnly2(e) {
+            var vall1 = $('#OccupantZip').val()
+            var ascii = (e.which) ? e.which : e.keyCode
+            if (ascii > 31 && (ascii < 48 || ascii > 57)) {
+                return false;
+            }
+
+            else {
+                var vall = $('#OccupantZip').val()
+                if (vall.length > 4) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+
+        function allowNumberOnly(e) {
+            var vall1 = $('#Zip').val()
+            var ascii = (e.which) ? e.which : e.keyCode
+            if (ascii > 31 && (ascii < 48 || ascii > 57)) {
+                return false;
+            }
+
+            else {
+                var vall = $('#Zip').val()
+                if (vall.length > 4) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    </script>
+
+    <script>
+
+
+
+        function eventFired(type) {
+            let n = document.querySelector('#demo_infoVendor');
+            n.innerHTML +=
+                '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+            n.scrollTop = n.scrollHeight;
+        }
+
+        new DataTable('#States2')
+            .on('order.dt', () => eventFired('Order'))
+            .on('search.dt', () => eventFired('Search'))
+            .on('page.dt', () => eventFired('Page'));
+
+
+
+    </script>
+
+    <script>
+
+
+
+        function eventFired(type) {
+            let n = document.querySelector('#demo_info');
+            n.innerHTML +=
+                '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+            n.scrollTop = n.scrollHeight;
+        }
+
+        new DataTable('#refPop')
+            .on('order.dt', () => eventFired('Order'))
+            .on('search.dt', () => eventFired('Search'))
+            .on('page.dt', () => eventFired('Page'));
+
+
+
+    </script>
+
+    <script>
+
+
+
+        function eventFired(type) {
+            let n = document.querySelector('#demo_infoComp');
+            n.innerHTML +=
+                '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+            n.scrollTop = n.scrollHeight;
+        }
+
+        new DataTable('#Comp')
+            .on('order.dt', () => eventFired('Order'))
+            .on('search.dt', () => eventFired('Search'))
+            .on('page.dt', () => eventFired('Page'));
+
+
+
+    </script>
+
+    <script type="text/javascript">
+        function buttonclick(param) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#ReferelSource').val(param); //to put that value in your textbox.
+            $('#exampleModal').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+        function buttonclickCompany(param, param2) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#LeadsName').val(param); //to put that value in your textbox.
+            $('#CompanyContactNumber').val(param2); //to put that value in your textbox.
+            $('#ContactName').val('');
+            $('#ContactNumberCompany').val('');
+            $('#exampleModalCompany').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+            //alert(param);
+
+            function eventFired(type) {
+                let n = document.querySelector('#demo_infoConCoun');
+                n.innerHTML +=
+                    '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+                n.scrollTop = n.scrollHeight;
+            }
+
+            new DataTable('#conCoun')
+                .on('order.dt', () => eventFired('Order'))
+                .on('search.dt', () => eventFired('Search'))
+                .on('page.dt', () => eventFired('Page'));
+
+            new DataTable('#conCoun').columns(3).search(param).draw();
+
+        }
+        function buttonclickContact(param, param2) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#ContactName').val(param);
+            $('#ContactNumberCompany').val(param2);
+            $('#exampleModalContact').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>
+    @*<script>
+            $(document).ready(function () {
+                $("#MoveInDate").datepicker();
+
+            });
+        </script>*@
+    <script>
+        (function ($) {
+            'use strict';
+            $(function () {
+                $('.file-upload-browse').on('click', function () {
+                    var file = $(this).parent().parent().parent().find('.file-upload-default');
+                    file.trigger('click');
+                });
+                $('.file-upload-default').on('change', function () {
+                    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#ContactType").val() == 'Company') {
+                document.getElementById('CompanyInfo').style.display = 'block';
+                document.getElementById('IndividualInfo').style.display = 'none';
+                document.getElementById('OccupantInfo').style.display = 'block';
+            }
+            else if ($("#ContactType").val() == 'Individual') {
+                document.getElementById('CompanyInfo').style.display = 'none';
+                document.getElementById('IndividualInfo').style.display = 'block';
+                document.getElementById('OccupantInfo').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#ContactType", function () {
+            if ($(this).val() == 'Company') {
+                document.getElementById('CompanyInfo').style.display = 'block';
+                document.getElementById('IndividualInfo').style.display = 'none';
+                document.getElementById('OccupantInfo').style.display = 'block';
+            }
+            else if ($(this).val() == 'Individual') {
+                document.getElementById('CompanyInfo').style.display = 'none';
+                document.getElementById('IndividualInfo').style.display = 'block';
+                document.getElementById('OccupantInfo').style.display = 'none';
+            }
+        });
+
+    </script>
+
+    @*@section scripts {
+            <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+                  type="text/css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+                    type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script>
+                $(function () {
+                    $(".selectpicker").selectpicker();
+                });
+            </script>
+        }*@

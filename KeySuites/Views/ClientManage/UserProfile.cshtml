@@ -1,0 +1,166 @@
+﻿
+
+@model Vidly.Models.PartyContact
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <hr />
+                <hr />
+                <hr />
+
+                <div class="card-header bg-primary">
+                    <h4 class="title">Edit Profile</h4>
+                    <p class="category">update Your Profile data down below.</p>
+                </div>
+                <div class="card-content">
+                    @using (Html.BeginForm("EditUser", "ClientManage"))
+                    {
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="label-floating" style="color:black">
+                                    @Html.HiddenFor(m => m.party_contact_type_cd)
+                                    @*@Html.LabelFor(m => m.party_contact_type_cd, "Role", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.DropDownList("DDLRole", ViewBag.DDLRole as IEnumerable<SelectListItem>, new { @class = "dropdown-xl  bg-gradient-faded-light dropdown-toggle", @disabled = true })
+                                    @Html.ValidationMessageFor(m => m.party_contact_type_cd)*@
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.last_name, "Last Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.last_name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.last_name)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.first_name, "First Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.first_name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="label-floating" style="color:black">
+                                    @Html.LabelFor(m => m.middle_initials, "Middle Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.middle_initials, new { @class = "form-control border-dark", @style = "border-radius:10px" })
+                                    @Html.ValidationMessageFor(m => m.middle_initials)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.email, "Email", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.email, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required", @disabled = true })
+                                    @Html.ValidationMessageFor(m => m.email)
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+
+                                    @Html.LabelFor(m => m.password, "Password", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.password, new { @class = "form-control border-dark", @style = "border-radius:10px", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.password)
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+
+                                    @Html.Label("confirm Password", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.confirmpassword, new { @class = "form-control border-dark", @style = "border-radius:10px", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.confirmpassword)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            @*<div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(m => m.password_expiration_dt, new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @Html.TextBoxFor(m => m.password_expiration_dt, new { @class = "form-control border-dark", @type = "date", @style = "border-radius:10px", @required = "required" })
+                                        @Html.ValidationMessageFor(m => m.password_expiration_dt)
+                                    </div>
+                                </div>*@
+                            @*<div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(m => m.account_status_cd, "Status", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                        @Html.DropDownList("DDLStatus", ViewBag.DDLStatus as IEnumerable<SelectListItem>, new { @class = "dropdown-xl  bg-gradient-faded-light dropdown-toggle" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(m => m.application_user_ind, new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                        @Html.TextBoxFor(m => m.application_user_ind, new { @class = "form-control border-dark", @type = "checkbox" })
+                                    </div>
+                                </div>*@
+                        </div>
+
+                        <div class="row">
+                            @Html.HiddenFor(m => m.party_contact_id)
+                            @Html.HiddenFor(m => m.party_id)
+                            <div class="col-md-12">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-info">
+                                    <i class="material-icons">save</i>
+                                    Update
+                                </button>
+                                <a href="/ClientManage/CancleUserProfile" class="btn btn-default">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            @if (ViewData["Message"] != null)
+            {
+                if (ViewData["Message"].ToString() != "")
+                {
+                    <div class="row" style="display:block">
+                        <div class="col-sm-6">
+
+                        </div>
+                        <div class="col-sm-6">
+
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                            @Html.Label("Error: " + ViewData["Message"].ToString())
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $(".selectpicker").selectpicker();
+        });
+    </script>
+}

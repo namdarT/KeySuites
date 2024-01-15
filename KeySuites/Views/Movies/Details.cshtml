@@ -1,0 +1,28 @@
+﻿@model Vidly.Models.Movie
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a class="btn btn-primary" href="/movies" role="button">
+    <i class="material-icons">arrow_back</i>
+    Back to list
+</a>
+
+<h2>Movie Details</h2>
+
+@if (Model == null)
+{
+    <text>No movie found.</text>
+}
+else
+{
+<ul>
+    <li>Name: @Model.Name</li>
+    <li>Genre: @Model.Genre.Name</li>
+    <li>Date Added: @Model.DateAdded.ToShortDateString()</li>
+    <li>Release Date: @Model.ReleaseDate.ToShortDateString()</li>
+    <li>Number in Stock: @Model.NumberInStock</li>
+</ul>
+}
+

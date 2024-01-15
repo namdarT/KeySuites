@@ -1,0 +1,291 @@
+﻿@{
+    ViewData["Title"] = "Device Data List";
+
+
+}
+
+<div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Simple Table</h4>
+                    <p class="category">Here is a subtitle for this table</p>
+                </div>
+                <div class="card-content table-responsive">
+                    <table class="table">
+                        <thead class="text-primary">
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Salary</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>lfsdfl</td>
+                                <td>Niger</td>
+                                <td>Oud-Turnhout</td>
+                                <td class="text-primary">$36,738</td>
+                            </tr>
+                            <tr>
+                                <td>Minerva Hooper</td>
+                                <td>Curaçao</td>
+                                <td>Sinaai-Waas</td>
+                                <td class="text-primary">$23,789</td>
+                            </tr>
+                            <tr>
+                                <td>Sage Rodriguez</td>
+                                <td>Netherlands</td>
+                                <td>Baileux</td>
+                                <td class="text-primary">$56,142</td>
+                            </tr>
+                            <tr>
+                                <td>Philip Chaney</td>
+                                <td>Korea, South</td>
+                                <td>Overland Park</td>
+                                <td class="text-primary">$38,735</td>
+                            </tr>
+                            <tr>
+                                <td>Doris Greene</td>
+                                <td>Malawi</td>
+                                <td>Feldkirchen in Kärnten</td>
+                                <td class="text-primary">$63,542</td>
+                            </tr>
+                            <tr>
+                                <td>Mason Porter</td>
+                                <td>Chile</td>
+                                <td>Gloucester</td>
+                                <td class="text-primary">$78,615</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="ct-chart-bar" style="vertical-align: middle; width: 100%; margin: 0 auto; position: relative; display: inline-block;"></div>
+            
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-plain">
+                <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Table on Plain Background</h4>
+                    <p class="category">Here is a subtitle for this table</p>
+                </div>
+                <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Dakota Rice</td>
+                                <td>$36,738</td>
+                                <td>Niger</td>
+                                <td>Oud-Turnhout</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Minerva Hooper</td>
+                                <td>$23,789</td>
+                                <td>Curaçao</td>
+                                <td>Sinaai-Waas</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Sage Rodriguez</td>
+                                <td>$56,142</td>
+                                <td>Netherlands</td>
+                                <td>Baileux</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Philip Chaney</td>
+                                <td>$38,735</td>
+                                <td>Korea, South</td>
+                                <td>Overland Park</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Doris Greene</td>
+                                <td>$63,542</td>
+                                <td>Malawi</td>
+                                <td>Feldkirchen in Kärnten</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Mason Porter</td>
+                                <td>$78,615</td>
+                                <td>Chile</td>
+                                <td>Gloucester</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+const { scriptasync } = require("modernizr");
+
+        var ctxP = document.getElementById("labelChart").getContext('2d');
+        var myPieChart = new Chart(ctxP, {
+            plugins: [ChartDataLabels],
+            type: 'pie',
+            data: {
+                labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+                datasets: [{
+                    data: [210, 130, 120, 160, 120],
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'right',
+                    labels: {
+                        padding: 20,
+                        boxWidth: 10
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100 / sum).toFixed(2) + "%";
+                            return percentage;
+                        },
+                        color: 'white',
+                        labels: {
+                            title: {
+                                font: {
+                                    size: '16'
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        </script>
+    <script type="text/javascript">
+
+
+        // Data
+        var data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56, 55, 40]
+            }, {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 86, 27, 90]
+            }]
+        };
+
+
+
+
+        var data2 = [
+            {
+                value: 300,
+                color: "#F7464A",
+                highlight: "#FF5A5E",
+                label: "Red"
+            },
+            {
+                value: 50,
+                color: "#46BFBD",
+                highlight: "#5AD3D1",
+                label: "Green"
+            },
+            {
+                value: 100,
+                color: "#FDB45C",
+                highlight: "#FFC870",
+                label: "Yellow"
+            },
+            {
+                value: 40,
+                color: "#949FB1",
+                highlight: "#A8B3C5",
+                label: "Grey"
+            },
+            {
+                value: 120,
+                color: "#4D5360",
+                highlight: "#616774",
+                label: "Dark Grey"
+            }
+
+        ];
+
+
+        // Global + Custom Chart Config Options
+
+        var options = {
+            bezierCurve: false,
+            animation: true,
+            animationEasing: "easeOutQuart",
+            showScale: false,
+            tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+            tooltipCornerRadius: 3,
+            pointDot: true,
+            pointDotRadius: 4,
+            datasetFill: true,
+            scaleShowLine: true,
+            animationEasing: "easeOutBounce",
+            animateRotate: true,
+            animateScale: true,
+        };
+
+
+        // Load Chart
+
+        var ctx1 = document.getElementById("myLineChart").getContext("2d");
+        var ctx = document.getElementById("myDonutChart").getContext("2d");
+
+        var myLineChart = new Chart(ctx1).Line(data, options);
+        // var myBarChart = new Chart(ctx).Bar(data, options);
+        // var myRadarChart = new Chart(ctx).Radar(data, options);
+        // new Chart(ctx).PolarArea(data2, options);
+
+        // For a pie chart
+        // var myPieChart = new Chart(ctx).Pie(data2,options);
+
+        // And for a doughnut chart
+        var myDoughnutChart = new Chart(ctx).Doughnut(data2, options);
+
+
+    </script>
+}

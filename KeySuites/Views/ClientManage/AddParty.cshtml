@@ -1,0 +1,103 @@
+﻿
+@model Vidly.Models.Party
+@{ ViewBag.Title = "New";
+    Layout = null; }
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h4 class="title">Add Client</h4>
+                    <p class="category">Insert or update Client data down below.</p>
+                </div>
+                <div class="card-content">
+                    @using (Html.BeginForm("SaveParty", "ClientManage"))
+                    {
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="label-floating" style="color:black">
+
+                                    <label asp-for="Business Type" class="control-label" style="font-size:12px;color:black"></label>
+                                    @Html.LabelFor(m => m.legal_name, "Company Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.legal_name, new { @class = "form-control text-bg-light", @style = "border-radius:10px", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.legal_name)
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.short_name, "Short Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                    @Html.TextBoxFor(m => m.short_name, new { @class = "form-control text-bg-light", @style = "border-radius:10px"})
+                                    @Html.ValidationMessageFor(m => m.short_name)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.entity_type_cd, "Business Type", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                    @Html.DropDownList("DDLProduct", ViewBag.DDLProduct as IEnumerable<SelectListItem>, new { @class = "dropdown-xxl  bg-gradient-faded-light dropdown-toggle", @selected = Model.entity_type_cd })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+                            @Html.HiddenFor(m => m.party_id)
+                            <div class="col-md-12">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-info">
+                                    <i class="material-icons">save</i>
+                                    Save
+                                </button>
+                                <a href="/ClientManage/PartyCancle" class="btn btn-default">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+            type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $(".selectpicker").selectpicker();
+        });
+    </script>
+}

@@ -1,0 +1,1137 @@
+﻿
+@model Vidly.Models.Property
+@{ ViewBag.Title = "New";
+    Layout = null; }
+@{
+    ViewData["Title"] = "Add Property";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Add Property</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Setup/Properties">Properties</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Add Properties </li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["Message"] != "" && ViewData["Message"] != null)
+        {
+            <div class="row" style="display:block">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="alert alert-warning" style="background-color:lightcoral" role="alert">
+                    @Html.Label("Error: " + ViewData["Message"].ToString(), new { @style = "color:black" })
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            @using (Html.BeginForm("AddProperty", "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+
+                                <h4 class="card-title text-info">Property Info</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px;background-color:oldlace", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Name)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Address 1", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PropertyAddress, new { @class = "form-control border-dark", @type = "varchar", @step = "any", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Address 2", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PropertyAddress2, new { @class = "form-control border-dark", @type = "varchar", @step = "any", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("City", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.City, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("State", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.State, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModalStates" title="Select State"><i class=" bg-info mdi mdi-search-web" style="font-size:large"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Zip", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Zip, new { @class = "form-control border-dark", @type = "number", @value = "75881", @onkeypress = "return allowNumberOnly(event)", @style = "border-radius:10px" })
+                                            <div id="savealert" class="alert alert-warning" style="background-color:lightcoral; display:none" role="alert">
+                                                @Html.Label("Zip code must be valid", new { @style = "color:black" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Phone Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control border-dark", @type = "varchar", @placeholder = "e.g.(234)-123-4657 or +1-212-456-7890", @style = "border-radius:10px;background-color:oldlace", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Emergency Phone Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.EmergencyPhoneNumber, new { @class = "form-control border-dark", @type = "varchar", @placeholder = "e.g.(234)-123-4657 or +1-212-456-7890", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.EmergencyPhoneNumber)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group label-floating">
+                                            <lable class="control-label" style="font-size:12px;color:black">Website</lable>
+                                            @*@Html.Label("Website", new { @class = "control-label", @style = "font-size:12px;color:black" })*@
+                                            @Html.TextBoxFor(m => m.WebSite, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px;background-color:oldlace", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.WebSite)
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="card-title text-info">Property Contact</h3>
+                                <div class="row">
+                                    <div class="col-lg-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h1 class="card-title">Property Contact List</h1>
+                                                <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd">Add More</button>
+
+                                                <div class="table-responsive">
+                                                    <div id="demo_info" class="box" style="display:none"></div>
+                                                    <table id="conCoun" class="table table-striped" style="font-size:12px;color:black">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>First Name</th>
+                                                                <th>Last Name</th>
+                                                                <th>Email</th>
+                                                                <th>Phone Number</th>
+                                                                <th>Action</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in (IEnumerable<Vidly.Models.PropContact>)ViewBag.PropContactList)
+                                                            {
+                                                                <tr class="table-striped">
+
+                                                                    <td style="display:none">
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropertyId)
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+
+                                                                    <td style="display:none">
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropContactId)
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropContactFirstName)
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropContactLastName)
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropContactEmail)
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <div class="d-flex px-2 border-end">
+                                                                            <div class="my-auto">
+
+                                                                                @Html.DisplayFor(modelItem => item.PropContactNumber)
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex px-2 border-end">
+
+                                                                            <div class="my-auto">
+
+
+
+                                                                            </div>
+                                                                            <div class="my-auto">
+
+                                                                                <a href="/Setup/DeletePropContact/@item.PropContactId?propertyId=@item.PropertyId" class="btnLink" data-toggle="tooltip" title="Delete"><i class="mdi mdi-delete "></i></a>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Unit Info</h4>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+
+                                            @Html.Label("Unit Type", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.DropDownList("UnitType", ViewBag.UnitType as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black" })
+                                            @Html.ValidationMessageFor(m => m.UnitType)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div id="lblUnitCustom" class="form-group label-floating" style="display:none">
+
+                                            @Html.Label("Unit Custom", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.TextBox("UnitCustom", "Guest House", new { @class = "form-control border-dark", @placeholder = "Customize Unit", @type = "varchar", @style = "border-radius:10px;dispaly:none", @required = "required" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Unit Size", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.UnitSize, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.UnitSize)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Unit Square Footage", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.UnitSquareFootage, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.UnitSquareFootage)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Building Number", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Building, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Unit Features</h4>
+                                <div class="row">
+                                    @foreach (var item in ViewBag.UnitFeatures as IEnumerable<SelectListItem>)
+                                    {
+                                        <div class="col-md-2">
+                                            <div class="form-group label-floating">
+                                                <label>
+                                                    <input style="font-size:8px" type="checkbox"
+                                                           name="SelectedTypes"
+                                                           value="@item.Text"
+                                                           @if (item.Value == "Checked") { <text> checked </text> } /> @item.Text
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Floor Plan</h4>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor Plan File", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="FloorPlanPic" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.FloorPlanPic, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.FloorPlanPic != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.FloorPlanPic" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.FloorPlanPic" alt="" /></a>
+                                            }
+
+                                            @*@Html.ValidationMessageFor(m => m.BusinessCenterImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor Plan Picture 1", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="FloorPlanPic1" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.FloorPlanPic1, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.FloorPlanPic1 != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.FloorPlanPic1" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.FloorPlanPic1" alt="" /></a>
+                                            }
+
+                                            @*@Html.ValidationMessageFor(m => m.BusinessCenterImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor Plan Picture 2", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="FloorPlanPic2" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style = "font-size:12px;color:black">Saved Image Name</label>*@
+
+                                            @Html.TextBoxFor(m => m.FloorPlanPic2, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.FloorPlanPic2 != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.FloorPlanPic2" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.FloorPlanPic2" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.BusinessCenterImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor Plan Picture 3", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="FloorPlanPic3" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style = "font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.FloorPlanPic3, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.FloorPlanPic3 != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.FloorPlanPic3" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.FloorPlanPic3" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.BusinessCenterImage)*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Management Company", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.VendorName, new { @class = "form-control border-dark", @type = "varchar", @readonly = true, @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.VendorName)
+
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModalVendor" title="Select Company"><i class=" bg-info mdi mdi-search-web"></i></a>
+                                            @Html.HiddenFor(m => m.VendorId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Property Info</h4>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Property Description", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextAreaFor(m => m.PropertyDescription, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.PropertyDescription)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Hours", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Hours, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Features", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextAreaFor(m => m.Features, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Amenities", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextAreaFor(m => m.Amenities, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Floor", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Floor, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+
+                                <h4 class="card-title text-info">Property Fee ($)</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Admin Fee", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control border-dark", @type = "number", @step = ".01", @placeholder = "e.g. 1 or 0.01", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.AdminFee)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+
+                                            @Html.Label("Application Fee", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ApplicationFee, new { @class = "form-control border-dark", @type = "number", @step = ".01", @placeholder = "e.g. 1 or 0.01", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.ApplicationFee)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Cleaning Fee", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.CleaningFee, new { @class = "form-control border-dark", @type = "number", @step = ".01", @tooltip = "e.g. 1 or 0.01", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.CleaningFee)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Pet Fee", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PetFee, new { @class = "form-control border-dark", @type = "number", @step = ".01", @tooltip = "e.g. 1 or 0.01", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.PetFee)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Valet Trash", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ValetTrash, new { @class = "form-control border-dark", @type = "number", @step = ".01", @tooltip = "e.g. 1 or 0.01", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Parking Fee", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.ParkingFee, new { @class = "form-control border-dark", @type = "number", @step = ".01", @tooltip = "e.g. 1 or 0.01", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Other Deposit", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("OtherDeposit", ViewBag.OtherDeposit as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.OtherDeposit)
+                                        </div>
+                                    </div>
+                                    <div id="lblDepositCustom" class="col-md-2" style="display:none">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Deposit Custom", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.TextBox("DepositCustom", "Pet Deposit", new { @class = "form-control border-dark", @placeholder = "Customize Other Deposit", @type = "varchar", @value = "no", @style = "border-radius:10px;dispaly:none", @required = "required" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Deposit Amount", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.OtherDepositAmount, new { @class = "form-control border-dark", @type = "varchar", @min = "0.00", @max = @"500.00", @step = "0.01", @tooltip = "e.g. 1 or 0.1", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Community Features</h4>
+                                <div class="row">
+                                    @foreach (var item in ViewBag.CommunityFeatures as IEnumerable<SelectListItem>)
+                                    {
+                                        <div class="col-md-2">
+                                            <div class="form-group label-floating">
+                                                <label>
+                                                    <input style="font-size:8px" type="checkbox"
+                                                           name="SelectedTypes2"
+                                                           value="@item.Text"
+                                                           @if (item.Value == "Checked") { <text> checked </text> } /> @item.Text
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-info">Policies</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Break Lease Policy", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextAreaFor(m => m.BreakLeasePolicy, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Pet Breed Restrictions", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.PetBreedRestrictions, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.PetBreedRestrictions)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Max No of Pets", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.MaxNoOfPets, new { @class = "form-control border-dark", @type = "number", @min = "0", @max = @"100", @step = "1", @placeholder = "e.g. 1", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.MaxNoOfPets)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Weight Limit(Kg)", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.WeightLimit, new { @class = "form-control border-dark", @type = "number", @min = "0", @max = @"500", @step = "1", @placeholder = "e.g. 1", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.WeightLimit)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-Info">Lease Policy</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Notice to Vacate", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("NoticetoVacate", ViewBag.NoticetoVacate as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.NoticetoVacate)
+                                        </div>
+                                    </div>
+                                    <div id="lblNTVCustom" class="col-md-3" style="display:none">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Notice to Vacate Custom", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.TextBox("NTVCustom", "90", new { @class = "form-control border-dark", @placeholder = "Customize Notice to Vacate", @type = "varchar", @style = "border-radius:10px;dispaly:none" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Lease End Date", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("LeaseEndDate", ViewBag.LeaseEndDate as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.LeaseEndDate)
+                                        </div>
+                                    </div>
+                                    <div id="lblLEDCustom" class="col-md-3" style="display:none">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Other Specific Date", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.TextBox("LEDCustom", "BirthDay", new { @class = "form-control border-dark", @placeholder = "Customize Specific Date", @type = "varchar", @value = "no", @style = "border-radius:10px;dispaly:none" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h4 class="card-title text-Info">Property Pictures</h4>
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Picture 1", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="BusinessCenterImage" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.BusinessCenterImage, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.BusinessCenterImage != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.BusinessCenterImage" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.BusinessCenterImage" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.BusinessCenterImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Picture 2", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="ElevatorFitnessImage" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.ElevatorFitnessImage, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.ElevatorFitnessImage != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.ElevatorFitnessImage" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.ElevatorFitnessImage" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.ElevatorFitnessImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Picture 3", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="MailBoxImage" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.MailBoxImage, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.MailBoxImage != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.MailBoxImage" data-fancybox="gallery" title=""><img class="img-fluid" width="80" height="50" src="~/Uploads/@Model.MailBoxImage" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.MailBoxImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Picture 4", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="ParkingTypeImage" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.ParkingTypeImage, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.ParkingTypeImage != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.ParkingTypeImage" data-fancybox="gallery" title=""><img class="img-fluid" width="100" height="50" src="~/Uploads/@Model.ParkingTypeImage" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.ParkingTypeImage)*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Picture 5", new { @class = "control-label", @style = "font-size:12px;color:black" })
+
+                                            <input name="PoolImage" type="file" class="file-upload-browse" style="font-size:12px;color:black" />
+                                            <hr />
+                                            @*<label style="font-size:12px;color:black">Saved Image Name</label>*@
+                                            @Html.TextBoxFor(m => m.PoolImage, new { @class = "control-label", @style = "font-size:12px;color:black;border-radius:10px", @type = "varchar", @readonly = true, @alt = " No File Saved" })
+                                            @if (Model.PoolImage != "No Image")
+                                            {
+                                                <a class="fancybox" href="~/Uploads/@Model.PoolImage" data-fancybox="gallery" title=""><img class="img-fluid" width="80" height="50" src="~/Uploads/@Model.PoolImage" alt="" /></a>
+                                            }
+                                            @*@Html.ValidationMessageFor(m => m.PoolImage)*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Elevator", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("Elevator", ViewBag.Elevator as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.Elevator)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Fitness", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("Fitness", ViewBag.Fitness as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.Fitness)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Pool", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("Pool", ViewBag.Pool as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.Pool)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Business Center", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("BusinessCenter", ViewBag.BusinessCenter as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.BusinessCenter)
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Parking Type", new { @class = "control-label", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.DropDownList("ParkingType", ViewBag.ParkingType as IEnumerable<SelectListItem>, new { @class = "btn btn-success", @style = "font-size:12px;color:black;dispaly:none" })
+                                            @Html.ValidationMessageFor(m => m.ParkingType)
+                                        </div>
+                                    </div>
+                                    <div id="lblPTCustom" class="col-md-3" style="display:none">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Parking Type Custom", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBox("PTCustom", "On Rent", new { @class = "form-control border-dark", @placeholder = "Customize Parking Type", @type = "varchar", @style = "border-radius:10px;dispaly:none" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Mailbox Location", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.MailboxLocation, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            @Html.ValidationMessageFor(m => m.MailboxLocation)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" style="display:none">
+
+                                    @*<div class="col-md-2">
+                    <div class="form-group label-floating">
+                        @Html.Label("Building", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                        @Html.TextBoxFor(m => m.Building, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+
+                    </div>
+                </div>*@
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Area", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Area, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-3">
+                    <div class="form-group label-floating">
+                        @Html.Label("City", new { @class = "control-label" })
+                        @Html.DropDownList("City", ViewBag.City as IEnumerable<SelectListItem>, new { @class = "btn btn-success" })
+
+                    </div>
+                </div>*@
+
+                                </div>
+
+                                <div class="row">
+                                    <div id="exampleModalStates" class="modal" tabindex="-1" role="dialog">
+                                        <div class="col-lg-12 grid-margin stretch-card">
+                                            <div class="card">
+
+                                                <div class="card-body">
+                                                    <h4 class="card-title">States Lookup</h4>
+                                                    @Html.Partial("_States", (IEnumerable<Vidly.Models.States>)ViewBag.States)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div id="exampleModalVendor" class="modal" tabindex="-1" role="dialog">
+                                            <div class="col-lg-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Vendor Lookup</h4>
+
+
+                                                        <div class="table-responsive">
+                                                            <div id="demo_infoVendor" class="box" style="display:none"></div>
+                                                            <table id="VendorM" class="display" style="font-size:12px;color:black">
+                                                                <thead>
+                                                                    <tr>
+
+
+                                                                        <th>Name</th>
+
+                                                                        <th>Address</th>
+                                                                        <th>Email</th>
+                                                                        <th>Contact #</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    @foreach (var item in (IEnumerable<Vidly.Models.Vendor>)ViewBag.Vendor)
+                                                                    {
+                                                                        <tr class="table-striped">
+
+                                                                            <td>
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        <a onclick="buttonclickVendor('@item.CompanyName', '@item.VendorId')" class="btnLink" data-toggle="tooltip" title="Select Company">@Html.DisplayFor(modelItem => item.CompanyName)</a>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        <a onclick="buttonclickVendor('@item.CompanyName', '@item.VendorId')" class="btnLink" data-toggle="tooltip" title="Select Company">@Html.DisplayFor(modelItem => item.Address)</a>
+
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        <a onclick="buttonclickVendor('@item.CompanyName', '@item.VendorId')" class="btnLink" data-toggle="tooltip" title="Select Company">@Html.DisplayFor(modelItem => item.Email)</a>
+
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <div class="d-flex px-2 border-end">
+                                                                                    <div class="my-auto">
+
+                                                                                        <a onclick="buttonclickVendor('@item.CompanyName', '@item.VendorId')" class="btnLink" data-toggle="tooltip" title="Select Company">@Html.DisplayFor(modelItem => item.PhoneNumber)</a>
+
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                            </td>
+
+
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.PropertyId)
+                                    <div class="col-md-12">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-primary btn-rounded btn-fw" onclick="return zipcheck()">
+
+                                            Save
+                                        </button>
+                                        <a href="/Setup/Properties" class="btn btn-light btn-rounded btn-fw">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#submit").click(function () {
+                var vall1 = $('#Zip').val()
+                //alert(vall1.length);
+                //alert(monthlyKSProfit);
+                if (vall1.length > 0 && vall1.length < 5) {
+                    //alert(vall1.length);
+                    document.getElementById('savealert').style.display = 'block'
+                    return false;
+                }
+                else {
+                    document.getElementById('savealert').style.display = 'none'
+
+                }
+            });
+        });
+
+        function zipcheck() {
+            var vall1 = $('#Zip').val()
+            //alert(vall1.length);
+            //alert(monthlyKSProfit);
+            if (vall1.length > 0 && vall1.length < 5) {
+                //alert(vall1.length);
+                document.getElementById('savealert').style.display = 'block'
+
+                return false;
+            }
+            else {
+                document.getElementById('savealert').style.display = 'none'
+
+            }
+        }
+
+    </script>
+
+
+    <script>
+        function buttonclickStates(param, param1) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#State').val(param); //to put that value in your textbox.
+
+            $('#exampleModalStates').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>
+
+    <script>
+        function allowNumberOnly(e) {
+            var vall1 = $('#Zip').val()
+            var ascii = (e.which) ? e.which : e.keyCode
+            if (ascii > 31 && (ascii < 48 || ascii > 57)) {
+                return false;
+            }
+
+            else {
+                var vall = $('#Zip').val()
+                if (vall.length > 4) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    </script>
+
+
+    <script>
+
+        function eventFired(type) {
+            let n = document.querySelector('#demo_infoVendor');
+            n.innerHTML +=
+                '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+            n.scrollTop = n.scrollHeight;
+        }
+
+        new DataTable('#VendorM')
+            .on('order.dt', () => eventFired('Order'))
+            .on('search.dt', () => eventFired('Search'))
+            .on('page.dt', () => eventFired('Page'));
+
+
+
+    </script>
+
+    <script type="text/javascript">
+
+
+        $(document).on('click', '.classAdd', function () { //
+            var rowCount = $('.table-striped').length + 1;
+            var contactdiv = '<tr class="table-striped">' +
+                '<td style="display:none"><div class="d-flex px-2 border-end" ><input type="text" name="PropertyId' + rowCount + '" value="0" class="form-control" /></div></td>' +
+                '<td style="display:none"><div class="d-flex px-2 border-end" ><input type="text" name="PropContactId' + rowCount + '" value="0" class="form-control" /></div></td>' +
+                '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactFirstName' + rowCount + '" class="form-control" /></div></td>' +
+                '<td><div class="d-flex px-2 border-end" ><input type="text" name="PropContactLastName' + rowCount + '" class="form-control " /></div></td>' +
+                '<td><div class="d-flex px-2 border-end" ><input type="email" name="PropContactEmail' + rowCount + '" class="form-control " /></div></td>' +
+                '<td><div class="d-flex px-2 border-end" ><input type="text" placeholder = "e.g.(234)-123-4657 or +1-212-456-7890" name="PropContactNumber' + rowCount + '" class="form-control " /></div></td>' +
+
+                '<td><div class="d-flex px-2 border-end" ><button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs">Remove</button></div></td>' +
+                '</tr>';
+            $('#conCoun').append(contactdiv); // Adding these controls to Main table class
+
+        });
+
+
+        $(document).on("click", ".deleteContact", function () {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+    </script>
+    <script>
+        (function ($) {
+            'use strict';
+            $(function () {
+                $('.file-upload-browse').on('click', function () {
+                    var file = $(this).parent().parent().parent().find('.file-upload-default');
+                    file.trigger('click');
+                });
+                $('.file-upload-default').on('change', function () {
+                    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+                });
+            });
+        })(jQuery);
+    </script>
+    <script>
+        function buttonclickVendor(param, param1) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#VendorName').val(param); //to put that value in your textbox.
+            $('#VendorId').val(param1); //to put that value in your textbox.
+            $('#exampleModalVendor').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#UnitType").val() == 'Other') {
+                document.getElementById('UnitCustom').style.display = 'block';
+                document.getElementById('lblUnitCustom').style.display = 'block';
+            }
+            else if ($("#UnitType").val() != 'Other') {
+                document.getElementById('UnitCustom').style.display = 'none';
+                document.getElementById('lblUnitCustom').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#UnitType", function () {
+            if ($(this).val() == 'Other') {
+                document.getElementById('UnitCustom').style.display = 'block';
+                document.getElementById('lblUnitCustom').style.display = 'block';
+            }
+            else if ($(this).val() != 'Other') {
+                document.getElementById('UnitCustom').style.display = 'none';
+                document.getElementById('lblUnitCustom').style.display = 'none';
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#OtherDeposit").val() == 'Other') {
+                document.getElementById('DepositCustom').style.display = 'block';
+                document.getElementById('lblDepositCustom').style.display = 'block';
+            }
+            else if ($("#OtherDeposit").val() != 'Other') {
+                document.getElementById('DepositCustom').style.display = 'none';
+                document.getElementById('lblDepositCustom').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#OtherDeposit", function () {
+            if ($(this).val() == 'Other') {
+                document.getElementById('DepositCustom').style.display = 'block';
+                document.getElementById('lblDepositCustom').style.display = 'block';
+            }
+            else if ($(this).val() != 'Other') {
+                document.getElementById('DepositCustom').style.display = 'none';
+                document.getElementById('lblDepositCustom').style.display = 'none';
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#NoticetoVacate").val() == 'Other') {
+                document.getElementById('NTVCustom').style.display = 'block';
+                document.getElementById('lblNTVCustom').style.display = 'block';
+            }
+            else if ($("#NoticetoVacate").val() != 'Other') {
+                document.getElementById('NTVCustom').style.display = 'none';
+                document.getElementById('lblNTVCustom').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#NoticetoVacate", function () {
+            if ($(this).val() == 'Other') {
+                document.getElementById('NTVCustom').style.display = 'block';
+                document.getElementById('lblNTVCustom').style.display = 'block';
+            }
+            else if ($(this).val() != 'Other') {
+                document.getElementById('NTVCustom').style.display = 'none';
+                document.getElementById('lblNTVCustom').style.display = 'none';
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#LeaseEndDate").val() == 'Other') {
+                document.getElementById('LEDCustom').style.display = 'block';
+                document.getElementById('lblLEDCustom').style.display = 'block';
+            }
+            else if ($("#LeaseEndDate").val() != 'Other') {
+                document.getElementById('LEDCustom').style.display = 'none';
+                document.getElementById('lblLEDCustom').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#LeaseEndDate", function () {
+            if ($(this).val() == 'Other') {
+                document.getElementById('LEDCustom').style.display = 'block';
+                document.getElementById('lblLEDCustom').style.display = 'block';
+            }
+            else if ($(this).val() != 'Other') {
+                document.getElementById('LEDCustom').style.display = 'none';
+                document.getElementById('lblLEDCustom').style.display = 'none';
+            }
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#ParkingType").val() == 'Other') {
+                document.getElementById('PTCustom').style.display = 'block';
+                document.getElementById('lblPTCustom').style.display = 'block';
+            }
+            else if ($("#ParkingType").val() != 'Other') {
+                document.getElementById('PTCustom').style.display = 'none';
+                document.getElementById('lblPTCustom').style.display = 'none';
+            }
+
+        });
+
+        $(document).on('change', "#ParkingType", function () {
+            if ($(this).val() == 'Other') {
+                document.getElementById('PTCustom').style.display = 'block';
+                document.getElementById('lblPTCustom').style.display = 'block';
+            }
+            else if ($(this).val() != 'Other') {
+                document.getElementById('PTCustom').style.display = 'none';
+                document.getElementById('lblPTCustom').style.display = 'none';
+            }
+        });
+
+    </script>
+
+    @*@section scripts {
+            <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+                  type="text/css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+                    type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script>
+                $(function () {
+                    $(".selectpicker").selectpicker();
+                });
+            </script>
+        }*@

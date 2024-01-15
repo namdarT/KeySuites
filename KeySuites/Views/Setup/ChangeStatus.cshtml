@@ -1,0 +1,279 @@
+﻿
+@model Vidly.Models.Reservation
+@{ ViewBag.Title = "New";
+    Layout = null; }
+@{
+    ViewData["Title"] = "Change Reservation Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Change Reservation Status</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="~/Setup/Reservations">Reservations</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Change Reservation Status</li>
+                </ol>
+            </nav>
+        </div>
+        @if (ViewData["Message"] != "" && ViewData["Message"] != null)
+        {
+            <div class="row" style="display:block">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="alert alert-warning" style="background-color:lightcoral" role="alert">
+                    @Html.Label("Error: " + ViewData["Message"].ToString(), new { @style = "color:black" })
+                </div>
+            </div>
+
+        }
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Update Status</h4>
+
+                            @using (Html.BeginForm("ChangeStatus", "Setup"))
+                            {
+
+
+                                <div class="row">
+
+                                    @*<div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Arrival Instructions", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.ArrivalInstructions, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.ArrivalInstructions)
+                                            </div>
+                                        </div>*@
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Reservation ID", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.RId, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                        </div>
+                                    </div>
+                                    @if (Model.quote.lead.ContactType == "Individual")
+                                    {
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Client Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.quote.lead.OcupantName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Client Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.quote.lead.LeadsName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Guest Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.GuestName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Property Name", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.property.Name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("CheckIn Time", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.CheckInTime, "{0:s}", new { @class = "form-control border-dark", @type = "datetime-local", @style = "border-radius:10px", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.CheckInTime)
+                                            </div>
+                                        </div>*@
+                                </div>
+
+                                <hr />
+                                <div class="row">
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Property Address", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.property.PropertyAddress, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Lease Start Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.LeaseStartDate, "{0:yyyy-MM-dd}", new { @class = "form-control border-dark", @type = "date", @min = "1997-01-01", @max = "3030-31-12", @style = "border-radius:10px", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.LeaseStartDate)
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Lease End Date", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @*@Html.TextBoxFor(m => m.PropertyStartDate, "{0:s}", new { @class = "form-control border-dark", @type = "datetime-local", @style = "border-radius:10px", @required = "required" })*@
+                                            @Html.TextBoxFor(m => m.LeaseEndDate, "{0:yyyy-MM-dd}", new { @class = "form-control border-dark", @type = "date", @style = "border-radius:10px", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.LeaseEndDate)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Management Company", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.property.VendorName, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Status", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.Status, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @readonly = true })
+                                            <a class="btnLink" data-toggle="modal" data-target="#exampleModalStatus" title="Select Status"><i class=" bg-info mdi mdi-search-web"></i></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div id="exampleModalStatus" class="modal" tabindex="-1" role="dialog">
+                                            <div class="col-lg-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Status Lookup</h4>
+
+
+                                                        <div class="table-responsive">
+                                                            <div id="demo_infoStatus" class="box" style="display:none"></div>
+                                                            <table id="ReservStatus" class="display" style="font-size:12px;color:black">
+                                                                <thead>
+                                                                    <tr>
+
+
+                                                                        <th>Status</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    @foreach (var item in (IEnumerable<Vidly.Models.Status>)ViewBag.Status)
+                                                                    {
+                                                                        <tr class="table-striped">
+
+                                                                            <td>
+                                                                                <a onclick="buttonclickStatus('@item.Statuses')" class="btnLink" data-toggle="tooltip" title="Select Status">
+                                                                                    <div class="d-flex px-2 border-end">
+                                                                                        <div class="my-auto">
+
+                                                                                            @Html.DisplayFor(modelItem => item.Statuses)
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </a>
+                                                                            </td>
+
+
+
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    
+                                    <div class="col-md-12">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-primary btn-rounded btn-fw">
+
+                                            Save
+                                        </button>
+                                        <a href="/Setup/Reservations" class="btn btn-light btn-rounded btn-fw">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //////$(document).ready(function () {
+        //////    $("#CheckInTime").datepicker();
+
+        //////});
+    </script>
+    @*@section scripts {
+            <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+                  type="text/css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+                    type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script>
+                $(function () {
+                    $(".selectpicker").selectpicker();
+                });
+            </script>
+        }*@
+    <script>
+
+
+
+        function eventFired(type) {
+            let n = document.querySelector('#demo_infoStatus');
+            n.innerHTML +=
+                '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+            n.scrollTop = n.scrollHeight;
+        }
+
+        new DataTable('#ReservStatus')
+            .on('order.dt', () => eventFired('Order'))
+            .on('search.dt', () => eventFired('Search'))
+            .on('page.dt', () => eventFired('Page'));
+
+
+
+    </script>
+
+    <script>
+        function buttonclickStatus(param) {
+            //you can access that value using the variable param.
+            //Or you can give any name of your choice.
+            $('#Status').val(param); //to put that value in your textbox.
+            $('#exampleModalStatus').modal('toggle'); //you can also use 'hide' instead of 'toggle' to close your modal.
+        }
+    </script>

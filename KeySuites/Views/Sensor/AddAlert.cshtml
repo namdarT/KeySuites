@@ -1,0 +1,93 @@
+﻿
+
+@model Vidly.Models.VwAppUserAsset
+@{ ViewBag.Title = "New";
+    Layout = null; 
+ }
+
+
+
+
+    
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h5 class="title">Add Sensor Alert</h5>
+                    <p class="category">@Model.asset_name</p>
+                </div>
+                <div class="card-content col-md-12">
+                    @using (Html.BeginForm("SaveAlert", "Sensor"))
+                    {
+                        <div class="ct-area">
+                            <table class="table table-hover" style="font-size: 10px">
+
+                                <tbody>
+
+
+                                    <tr>
+                                        <td></td>
+                                        <td ></td>
+                                        <td data-background-color="red"></td>
+                                        <td>____________________________Active Flooding : @Html.TextBoxFor(m => m.wet_sensor_depth, new { @class = "", @type = "number", @style = "border-radius:10px", @required = "required" })</td>
+                                        <td>
+                                            
+                                            
+                                        </td>
+                                        
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td data-background-color="orange"></td>
+                                        <td>____________________________Normal :         @Html.TextBoxFor(m => m.wet_water_level, new { @class = "", @type = "varchar", @style = "border-radius:10px", @required = "required" })</td>
+                                        <td>
+                                            
+                                        </td>
+                                        
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td data-background-color="green"></td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                        
+                                        
+
+                                    </tr>
+                                    <div class="row">
+                                        @Html.HiddenFor(m => m.asset_id)
+                                        <div class="col-md-6">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="material-icons">save</i>
+                                                Save
+                                            </button>
+                                            <a href="/Sensor/SensorAlert" class="btn btn-default">
+                                                Cancel
+                                            </a>
+                                        </div>
+                                    </div>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    }
+                </div>
+                </div>
+            </div>
+        
+
+
+@section scripts {
+    <script>
+        $(function () {
+            $(".selectpicker").selectpicker();
+        });
+    </script>
+}

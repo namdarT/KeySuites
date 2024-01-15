@@ -1,0 +1,1507 @@
+﻿
+
+
+@model Vidly.Models.Asset
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="row">
+
+    <div class="col-sm-10"></div>
+
+    <div class="col-sm-2">
+        <button class="btn-primary btn btn-block widthAuto marginTop32 marginLeft8">
+        </button>
+    </div>
+</div>
+
+<hr />
+<div class="row">
+
+    <div class="col-sm-10"><h5>Sensor Activation</h5></div>
+
+    <div class="col-sm-2">
+
+    </div>
+</div>
+
+<hr />
+<div class="row">
+
+    @if (ViewData["NoSensor"].ToString() != "" && ViewData["NoSensor"] != null)
+    {
+        <div class="col-sm-12">
+
+            <button id="one" data-target="onepanel" style="color: grey; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_1</i>
+                Select Sensor
+            </button>
+
+            @*<button id="add" data-target="addpanl">
+                    <i class="material-icons">add</i>
+                    <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+                </button>*@
+            <button id="two" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_2</i>
+                Pull Magnet
+            </button>
+            <button id="three" data-target="threepanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_3</i>
+                Look for Blinking Light
+            </button>
+            <button id="four" data-target="fourpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_4</i>
+                Place Magnet in Retainer
+            </button>
+            <button id="five" data-target="fivepanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_5</i>
+                Replace Cap
+            </button>
+            <button id="six" data-target="sixpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_6</i>
+                Ping Sensor
+            </button>
+            <button id="seven" data-target="sevenpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_7</i>
+                Set Installation
+            </button>
+            <button id="eight" data-target="eightpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_8</i>
+                Set Alarm
+            </button>
+            <button id="nine" data-target="ninepanel" style="color:dodgerblue; font-size: 12px; font-weight: 500" disabled="disabled">
+
+                <i class="material-icons">filter_9</i>
+                Review
+            </button>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="col-sm-12">
+
+            @if (ViewData["Ping"] != null)
+            {
+                if (ViewData["Ping"].ToString() == "Ping")
+                {
+                    <button id="one" data-target="onepanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                        <i class="material-icons">filter_1</i>
+                        Select Sensor
+                    </button>
+                }
+            }
+            else
+            {
+                <button id="one" data-target="onepanel" style="color: grey; font-size: 12px; font-weight: 500">
+
+                    <i class="material-icons">filter_1</i>
+                    Select Sensor
+                </button>
+            }
+
+
+            @*<button id="add" data-target="addpanl">
+                    <i class="material-icons">add</i>
+                    <a asp-area="" asp-controller="Sensor" asp-action="Add" class="btnLink"></a>
+                </button>*@
+            <button id="two" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_2</i>
+                Pull Magnet
+            </button>
+            <button id="three" data-target="threepanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_3</i>
+                Look for Blinking Light
+            </button>
+            <button id="four" data-target="fourpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_4</i>
+                Place Magnet in Retainer
+            </button>
+            <button id="five" data-target="fivepanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_5</i>
+                Replace Cap
+            </button>
+            @if (ViewData["Ping"] != null)
+            {
+                if (ViewData["Ping"].ToString() == "Ping")
+                {
+                    <button id="six" data-target="sixpanel" style="color: gray; font-size: 12px; font-weight: 500">
+
+                        <i class="material-icons">filter_6</i>
+                        Ping Sensor
+                    </button>
+                }
+            }
+            else
+            {
+                <button id="six" data-target="sixpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                    <i class="material-icons">filter_6</i>
+                    Ping Sensor
+                </button>
+            }
+
+            <button id="seven" data-target="sevenpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_7</i>
+                Set Installation
+            </button>
+            <button id="eight" data-target="eightpanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_8</i>
+                Set Alarm
+            </button>
+            <button id="nine" data-target="ninepanel" style="color:dodgerblue; font-size: 12px; font-weight: 500">
+
+                <i class="material-icons">filter_9</i>
+                Review
+            </button>
+        </div>
+    }
+
+
+</div>
+
+@if (ViewData["Ping"] != null)
+{
+    if (ViewData["Ping"].ToString() == "Ping")
+    {
+        if (ViewData["NotActive"].ToString() != "" && ViewData["NotActive"] != null)
+        {
+
+            <div id="alert" class="alert alert-warning" role="alert" onclick="close();">
+                <strong>Alert!    </strong>(Click to Disable Alert)<hr />@ViewData["NotActive"].ToString()
+
+                <button type="button" class="close" style="background-color:red" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="row">
+                @* <label>@ViewData["error"].ToString()</label>*@
+            </div>
+        }
+        else
+        {
+            <div id="" class="row" style="display:none">
+                <div id="" class="success" role="" onclick="close();">
+                    <strong>Alert!    </strong><hr />
+                    @Html.Label("Warning :" + ViewData["NotActive"].ToString(), new { @style = "color:pink" })
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
+        }
+    }
+}
+@if (ViewData["SuccessMessage"] != null)
+{
+    if (ViewData["SuccessMessage"].ToString() != "")
+    {
+        <div id="successmessage" class="row" style="display:block">
+            
+            <div id="alertSuccess" class="alert alert-warning" role="alert" onclick="close();">
+                <strong>Alert!    </strong><button type="button" class="close " style="background-color:red" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button><hr /><span style="color:white">@ViewData["SuccessMessage"].ToString()</span>
+
+                
+                
+            </div>
+        </div>
+
+    }
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-content">
+                    @using (Html.BeginForm("UpdateActivate", "Sensor"))
+                    {
+                        if (ViewData["Ping"] != null)
+                        {
+                            if (ViewData["Ping"].ToString() == "Ping")
+                            {
+                                <div class="row" id="zeropanel" style="display:none">
+                                    <div class="col-md-3">
+                                        <label>Please select a sensor to activate </label>
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Asset :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.DropDownList("asset", ViewBag.asset as IEnumerable<SelectListItem>, new { @onchange = "callChangefunc(this.value)", @class = "dropdown-toggle dropdown-toggle-split  bg-gradient-faded-light dropdown-toggle", @data_live_search = "true" })
+                                            @Html.ValidationMessageFor(m => m.asset_name)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="onepanel" style="display: none">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Sensor Name :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.asset_name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.asset_name)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Serial # :", new { @class = "control-label ", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.deviceSN, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Group :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.asset_group, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (ViewData["NoSensor"].ToString() != "" && ViewData["NoSensor"] != null)
+                                    {
+                                        <div class="row" id="oneb">
+
+                                            <div class="col-md-3">
+                                                <label>@ViewData["NoSensor"].ToString()</label>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row" id="oneb">
+
+                                            <div class="col-md-3">
+                                                <button id="onen" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                                    <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="row" id="zeropanel" style="display:block">
+                                <div class="col-md-3">
+                                    <label>Please select a sensor to activate </label>
+                                    <div class="form-group label-floating">
+                                        @Html.Label("Asset :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @Html.DropDownList("asset", ViewBag.asset as IEnumerable<SelectListItem>, new { @onchange = "callChangefunc(this.value)", @class = "dropdown-toggle dropdown-toggle-split  bg-gradient-faded-light dropdown-toggle", @data_live_search = "true" })
+                                        @Html.ValidationMessageFor(m => m.asset_name)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="onepanel" style="display: block">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Sensor Name :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.asset_name, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.asset_name)
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Device Model :", new { @class = "control-label ", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.deviceSN, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            @Html.Label("Group :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                            @Html.TextBoxFor(m => m.asset_group, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (ViewData["NoSensor"].ToString() != "" && ViewData["NoSensor"] != null)
+                                {
+                                    <div class="row" id="oneb">
+
+                                        <div class="col-md-3">
+                                            <label>@ViewData["NoSensor"].ToString()</label>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row" id="oneb">
+
+                                        <div class="col-md-3">
+                                            <button id="onen" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                                <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        }
+
+
+                        <div class="row" id="twopanel" style="display:none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Pull the red cap and magnet from the device then click Next </label>
+                                </div>
+
+                                <video id="pllugcap" controls="" autoplay="" loop="" width="500" height="400">
+                                    <source src="~/Content/videos/PullCapAndMagnet.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="row" id="twob">
+                                <div class="col-md-3">
+                                    <button id="twop" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="twon" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="threepanel" style="display:none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Look for blinking lights then click Next </label>
+                                </div>
+
+                                <video id="pllugcap" controls="" autoplay="" loop="" width="500" height="400">
+                                    <source src="~/Content/videos/LookForBlinkingLights.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="row" id="threeb">
+                                <div class="col-md-3">
+                                    <button id="threep" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="threen" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fourpanel" style="display:none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Place magnet in retainer on the side then click Next </label>
+                                </div>
+
+                                <video id="pllugcap" controls="" autoplay="" loop="" width="500" height="400">
+                                    <source src="~/Content/videos/PlaceMagnetInRetainerOnSide.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="row" id="fourb">
+                                <div class="col-md-3">
+                                    <button id="fourp" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="fourn" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fivepanel" style="display:none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Replace cap on the magnet then click Next </label>
+                                </div>
+
+                                <video id="pllugcap" controls="" autoplay="" loop="" width="500" height="400">
+                                    <source src="~/Content/videos/ReplaceRedCap.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="row" id="fiveb">
+                                <div class="col-md-3">
+                                    <button id="fivep" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="fiven" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        if (ViewData["Ping"] != null)
+                        {
+                            if (ViewData["Ping"].ToString() == "Ping")
+                            {
+
+                                <div class="row" id="sixpanel" style="display:block">
+                                    <div class="col-md-12">
+
+                                        <div class="row">
+                                            @if (ViewData["NoData"].ToString() != "")
+                                            {
+                                                <div class="col-md-12">
+                                                    <label><strong style="color:red">@ViewData["NoData"].ToString()</strong><strong style="color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact Simplicity for Help: 1-833-SI-FLOOD or email at help@simplicityintegration.com </strong></label>
+                                                </div>
+                                            }
+
+                                            <div class="col-md-3">
+                                                <div class="form-group label-floating">
+                                                    @Html.Label("Latitude :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                    @Html.TextBoxFor(m => m.latitude, new { @class = "form-control border-dark", @type = "number", @step = "any", @style = "border-radius:10px", @required = "required" })
+                                                    @Html.ValidationMessageFor(m => m.latitude)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group label-floating">
+                                                    @Html.Label("Longitude :", new { @class = "control-label ", @style = "font-size:12px;color:black" })
+                                                    @Html.TextBoxFor(m => m.longitude, new { @class = "form-control border-dark", @type = "number", @step = "any", @style = "border-radius:10px", @required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group label-floating">
+                                                    @Html.Label("Address :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                    @Html.TextBoxFor(m => m.street_address_1, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" id="updateb">
+                                        <a href="/Sensor/Ping/@Model.asset_id" class="btn btn-info">
+                                            <i class="material-icons">save</i>
+                                            Update Location
+                                        </a>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @*Search : <input id="pac-input" />*@
+                                                <div class="container-fluid" id="googleMap" style="width: 1000px; height: 300px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="sixb">
+                                        <div class="col-md-3">
+                                            <button id="sixp" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                                <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                                Prev
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button id="sixn" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                                <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+                        }
+                        else
+                        {
+                            <div class="row" id="sixpanel" style="display:none">
+                                <div class="col-md-12">
+
+                                    <div class="row">
+                                        @if (ViewData["NoData"].ToString() != "")
+                                        {
+                                            <div class="col-md-12">
+                                                <label><strong style="color:red">@ViewData["NoData"].ToString()</strong><strong style="color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact Simplicity for Help: 1-833-SI-FLOOD or email at help@simplicityintegration.com </strong></label>
+                                            </div>
+                                        }
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Latitude :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.latitude, new { @class = "form-control border-dark", @type = "number", @step = "any", @style = "border-radius:10px", @required = "required" })
+                                                @Html.ValidationMessageFor(m => m.latitude)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Longitude :", new { @class = "control-label ", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.longitude, new { @class = "form-control border-dark", @type = "number", @step = "any", @style = "border-radius:10px", @required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                @Html.Label("Address :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                                @Html.TextBoxFor(m => m.street_address_1, new { @class = "form-control border-dark", @type = "varchar", @style = "border-radius:10px", @required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" id="updateb">
+                                    <a href="/Sensor/Ping/@Model.asset_id" class="btn btn-info">
+                                        <i class="material-icons">save</i>
+                                        Update Map
+                                    </a>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            Search : <input id="pac-input" />
+                                            <div class="container-fluid" id="googleMap" style="width: 1000px; height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="sixb">
+                                    <div class="col-md-3">
+                                        <button id="sixp" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                            <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                            Prev
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button id="sixn" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                            <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="row" id="sevenpanel" style="display:none">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.Label("Dry Above Offset :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @Html.TextBoxFor(m => m.dry_above_grade_offset, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.Label("Dry Below Offset :", new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @Html.TextBoxFor(m => m.dry_below_grade_offset, new { @class = "form-control border-dark", @type = "number", @style = "border-radius:10px" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="sevenb">
+                                <div class="col-md-3">
+                                    <button id="sevenp" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="sevenn" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" id="eightpanel" style="display:none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Set Potential and Active Flooding Levels </label>
+                                </div>
+                                <table class="table table-hover" style="font-size: 15px">
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td data-background-color="red"></td>
+                                        <td>____________________________Active  : @Html.TextBoxFor(m => m.wet_sensor_depth, new { @class = "", @type = "number", @style = "border-radius:10px", @required = "required" })</td>
+                                        <td>
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td data-background-color="orange"></td>
+                                        <td>____________________________Normal :         @Html.TextBoxFor(m => m.wet_water_level, new { @class = "", @type = "number", @style = "border-radius:10px", @required = "required" })</td>
+                                        <td>
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td data-background-color="green"></td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+
+
+
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row" id="eightb">
+                                <div class="col-md-3">
+                                    <button id="eightp" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_left_rounded</i>
+                                        Prev
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="eightn" data-target="twopanel" style="color: dodgerblue; font-size: 12px; font-weight: 500">
+
+                                        <i class="material-icons">keyboard_double_arrow_right_rounded</i>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(m => m.country, new { @class = "control-label", @style = "font-size:12px;color:black" })
+                                        @Html.DropDownList("Country", ViewBag.Country as IEnumerable<SelectListItem>, new { @class = "dropdown-xxl  bg-gradient-faded-light dropdown-toggle" })
+                                        @Html.ValidationMessageFor(m => m.country)
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="row" id="ninepanel" style="display:none">
+
+                            <div class="row">
+                                @Html.HiddenFor(m => m.asset_id)
+                                <div class="col-md-12">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-info">
+                                        <i class="material-icons">save</i>
+                                        Save
+                                    </button>
+                                    <a href="/Sensor/Activate" class="btn btn-default">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+
+@section Scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBO57NKba2iF6ZGlPm62-SE61F5UgYO2mY&region=US"></script>
+
+    <script language="javascript">
+
+
+        function initialize() {
+
+            @if (Model.latitude == "0" || Model.latitude == "0.0" || Model.latitude == null)
+            {
+                <text>
+                    var myOptions = {
+                        zoom: 6,
+                        center: new google.maps.LatLng('35.388954223454036', '-103.35569531250002'),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                </text>
+            }
+            else
+            {
+                <text>
+
+                        var myOptions = {
+                        zoom: 6,
+                        center: new google.maps.LatLng(@Model.latitude, @Model.longitude),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                </text>
+            }
+
+
+
+                        map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+
+
+
+                        // Create the search box and link it to the UI element.
+                        var input = (document.getElementById('pac-input'));
+                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                        var searchBox = new google.maps.places.SearchBox((input));
+
+
+                        // Listen for the event fired when the user selects an item from the
+                        // pick list. Retrieve the matching places for that item.
+                        google.maps.event.addListener(searchBox, 'places_changed', function () {
+                        var places = searchBox.getPlaces();
+
+                        if (places.length == 0) {
+                            return;
+                        }
+                        for (var i = 0, marker; marker = markers[i]; i++) {
+                            marker.setMap(null);
+                        }
+
+                        // For each place, get the icon, place name, and location.
+                        markers = [];
+                        var bounds = new google.maps.LatLngBounds();
+                        for (var i = 0, place; place = places[i]; i++) {
+                            var image = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                            };
+
+                        // Create a marker for each place.
+                        var marker = new google.maps.Marker({
+                        map: map,
+                        icon: image,
+                        title: place.name,
+                        position: place.geometry.location
+                                });
+
+                    markers.push(marker);
+
+                    bounds.extend(place.geometry.location);
+                }
+
+                map.fitBounds(bounds);
+            });
+
+
+
+            // current map's viewport.
+            google.maps.event.addListener(map, 'bounds_changed', function () {
+                var bounds = map.getBounds();
+                searchBox.setBounds(bounds);
+            });
+
+            ///Start Click To Map For LatLon
+            let infoWindow = new google.maps.InfoWindow({
+                content: "Click the map to get Lat/Lng!",
+                position: map.LatLng,
+            });
+
+            infoWindow.open(map);
+            // Configure the click listener.
+
+            // Configure the click listener.
+            map.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                    position: mapsMouseEvent.latLng,
+                });
+            document.getElementById("latitude").value = mapsMouseEvent.latLng.lat();
+            document.getElementById("longitude").value = mapsMouseEvent.latLng.lng();
+            infoWindow.setContent(
+                JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+
+            );
+            infoWindow.open(map);
+            });
+            ///End Click To Map For LatLon
+
+            var myLatLng = new google.maps.LatLng("@Model.latitude", "@Model.longitude");
+            var markerTitle = "@Model.asset_name"; // input the monuments name from the database
+            var URL = "#";
+            //var URL = @Url.Action("Index", "Home" , Model.latitude);
+            switch ("@Model.active_ind") {
+                case "0":
+                    var image = 'http://maps.google.com/mapfiles/kml/paddle/grn-circle.png';
+                    break;
+                case "1":
+                    var image = 'http://maps.google.com/mapfiles/kml/paddle/red-circle.png';
+                    break;
+                case "U":
+                    var image = 'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png';
+                    break;
+                default:
+                    var image = "/content/img/gray-marker.png";
+
+
+
+                            @if (ViewBag.id == Model.asset_id)
+                            {
+                                <text>
+                    image = "/content/img/gray-marker.png";
+                                </text>
+                            }
+
+
+            @if(Model.latitude == "0" || Model.latitude == "0.0" || Model.latitude == null)
+            {
+                <text>
+
+                </text>
+            }
+            else
+            {
+                <text>
+                    var myMarker = new google.maps.Marker({
+                        position: myLatLng,
+                        icon: image,
+                        title: markerTitle,
+                        url: URL,
+                        map: map
+                    });
+                </text>
+            }
+
+            //google.maps.event.addListener(map, 'click', function (event) {
+            //    //marker = new google.maps.Marker({
+            //    position: event.latLng,
+            //    map: map
+            //});
+            // on click, go to the monuments detail page
+            google.maps.event.addListener(myMarker, "click", function (event) {
+                //window.location.href = this.url;
+                SensorDetail(this.url, @Model.latitude);
+                insertText("#lst");
+                //document.getElementById("#lst").val = value;
+            });
+
+
+                            //}
+                            // create the url to link to the monuments detail page
+            } return
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+        //// Create the search box and link it to the UI element.
+        //const input = document.getElementById("pac-input");
+        //const searchBox = new google.maps.places.SearchBox(input);
+
+        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        //// Bias the SearchBox results towards current map's viewport.
+        //map.addListener("bounds_changed", () => {
+        //    searchBox.setBounds(map.getBounds());
+        //});
+
+        //let markers = [];
+
+        //// Listen for the event fired when the user selects a prediction and retrieve
+        //// more details for that place.
+        //searchBox.addListener("places_changed", () => {
+        //    const places = searchBox.getPlaces();
+
+        //    if (places.length == 0) {
+        //        return;
+        //    }
+
+        //    // Clear out the old markers.
+        //    markers.forEach((marker) => {
+        //        marker.setMap(null);
+        //    });
+
+        //    markers = [];
+
+        //    // For each place, get the icon, name and location.
+        //    const bounds = new google.maps.LatLngBounds();
+
+        //    places.forEach((place) => {
+        //        if (!place.geometry || !place.geometry.location) {
+        //            console.log("Returned place contains no geometry");
+        //            return;
+        //        }
+
+        //        const icon = {
+        //            url: place.icon,
+        //            size: new google.maps.Size(71, 71),
+        //            origin: new google.maps.Point(0, 0),
+        //            anchor: new google.maps.Point(17, 34),
+        //            scaledSize: new google.maps.Size(25, 25),
+        //        };
+
+        //    });
+
+
+
+
+        function allBlue() {
+            document.getElementById('one').style.color = 'dodgerblue';
+            document.getElementById('two').style.color = 'dodgerblue';
+            document.getElementById('three').style.color = 'dodgerblue';
+            document.getElementById('four').style.color = 'dodgerblue';
+            document.getElementById('five').style.color = 'dodgerblue';
+            document.getElementById('six').style.color = 'dodgerblue';
+            document.getElementById('seven').style.color = 'dodgerblue';
+            document.getElementById('eight').style.color = 'dodgerblue';
+            document.getElementById('nine').style.color = 'dodgerblue';
+        };
+        function allDisplayNone() {
+            document.getElementById('zeropanel').style.display = 'block';
+            document.getElementById('onepanel').style.display = 'none';
+            document.getElementById('twopanel').style.display = 'none';
+            document.getElementById('threepanel').style.display = 'none';
+            document.getElementById('fourpanel').style.display = 'none';
+            document.getElementById('fivepanel').style.display = 'none';
+            document.getElementById('sixpanel').style.display = 'none';
+            document.getElementById('sevenpanel').style.display = 'none';
+            document.getElementById('eightpanel').style.display = 'none';
+            document.getElementById('ninepanel').style.display = 'none';
+
+
+        };
+        function allButtonNone() {
+            document.getElementById('oneb').style.display = 'none';
+            document.getElementById('twob').style.display = 'none';
+            document.getElementById('threeb').style.display = 'none';
+            document.getElementById('fourb').style.display = 'none';
+            document.getElementById('fiveb').style.display = 'none';
+            document.getElementById('sixb').style.display = 'none';
+            document.getElementById('sevenb').style.display = 'none';
+            document.getElementById('eightb').style.display = 'none';
+            document.getElementById('updateb').style.display = 'none';
+        };
+        function allButtonBlock() {
+            document.getElementById('oneb').style.display = 'block';
+            document.getElementById('twob').style.display = 'block';
+            document.getElementById('threeb').style.display = 'block';
+            document.getElementById('fourb').style.display = 'block';
+            document.getElementById('fiveb').style.display = 'block';
+            document.getElementById('sixb').style.display = 'block';
+            document.getElementById('sevenb').style.display = 'block';
+            document.getElementById('eightb').style.display = 'block';
+        };
+        window.onload = function () {
+
+
+
+            document.getElementById('one').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'block';
+                document.getElementById('onepanel').style.display = 'block';
+                document.getElementById('one').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('two').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('one').style.color = 'dodgerblue';
+                document.getElementById('two').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'block';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                document.getElementsByName('asset_Name').innerHTML = document.getElementsByName('asset_name').innerHTML;
+                return false;
+            };
+
+            document.getElementById('three').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('three').style.color = 'grey';
+                document.getElementById('two').style.color = 'dodgerblue';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'block';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('four').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('three').style.color = 'dodgerblue';
+                document.getElementById('four').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'block';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('five').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('four').style.color = 'dodgerblue';
+                document.getElementById('five').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'block';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('six').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('five').style.color = 'dodgerblue';
+                document.getElementById('six').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'block';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                window.location.href = "/Sensor/Ping/" + @Model.asset_id;
+                return false;
+            };
+
+            document.getElementById('seven').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('six').style.color = 'dodgerblue';
+                document.getElementById('seven').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'block';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('eight').onclick = function () {
+                allBlue();
+                allButtonBlock();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('seven').style.color = 'dodgerblue';
+                document.getElementById('eight').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'block';
+                document.getElementById('ninepanel').style.display = 'none';
+                return false;
+            };
+
+            document.getElementById('nine').onclick = function () {
+                allBlue();
+                allDisplayNone();
+                allButtonNone();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'block';
+                document.getElementById('eight').style.color = 'dodgerblue';
+                document.getElementById('nine').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'none';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'block';
+                document.getElementById('sevenpanel').style.display = 'block';
+                document.getElementById('eightpanel').style.display = 'block';
+                document.getElementById('ninepanel').style.display = 'block';
+                //document.getElementById('oneb').style.display = 'none';
+                //document.getElementById('twob').style.display = 'none';
+                //document.getElementById('threeb').style.display = 'none';
+                //document.getElementById('fourb').style.display = 'none';
+                //document.getElementById('fiveb').style.display = 'none';
+                //document.getElementById('sixb').style.display = 'none';
+                //document.getElementById('sevenb').style.display = 'none';
+                //document.getElementById('eightb').style.display = 'none';
+
+                return false;
+            };
+
+            document.getElementById('onepanel').childNodes.getElementById("onep").onclick = function () {
+                allBlue();
+                allDisplayNone();
+                document.getElementById('zeropanel').style.display = 'block';
+                document.getElementById('onepanel').style.display = 'block';
+                document.getElementById('one').style.color = 'grey';
+
+                return false;
+            };
+            document.getElementById('onen').onclick = function () {
+                allBlue();
+                document.getElementById('zeropanel').style.display = 'none';
+                document.getElementById('onepanel').style.display = 'none';
+                document.getElementById('one').style.color = 'dodgerblue';
+                document.getElementById('two').style.color = 'grey';
+                document.getElementById('twopanel').style.display = 'block';
+                document.getElementById('threepanel').style.display = 'none';
+                document.getElementById('fourpanel').style.display = 'none';
+                document.getElementById('fivepanel').style.display = 'none';
+                document.getElementById('sixpanel').style.display = 'none';
+                document.getElementById('sevenpanel').style.display = 'none';
+                document.getElementById('eightpanel').style.display = 'none';
+                document.getElementById('ninepanel').style.display = 'none';
+                document.getElementsByName('asset_Name').innerHTML = document.getElementsByName('asset_name').innerHTML;
+                return false;
+            };
+
+            document.getElementById('twop').onclick = function () {
+                allBlue();
+                allDisplayNone();
+                document.getElementById('zeropanel').style.display = 'block';
+                document.getElementById('onepanel').style.display = 'block';
+                document.getElementById('one').style.color = 'grey';
+
+                return false;
+            };
+
+            document.getElementById('twon').onclick = function () {
+                allBlue();
+                allDisplayNone();
+                document.getElementById('three').style.color = 'grey';
+                document.getElementById('two').style.color = 'dodgerblue';
+
+                document.getElementById('threepanel').style.display = 'block';
+
+                return false;
+            };
+
+
+
+        };
+
+        document.getElementById('onen').onclick = function () {
+            allBlue();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('onepanel').style.display = 'none';
+            document.getElementById('one').style.color = 'dodgerblue';
+            document.getElementById('two').style.color = 'grey';
+            document.getElementById('twopanel').style.display = 'block';
+            document.getElementById('threepanel').style.display = 'none';
+            document.getElementById('fourpanel').style.display = 'none';
+            document.getElementById('fivepanel').style.display = 'none';
+            document.getElementById('sixpanel').style.display = 'none';
+            document.getElementById('sevenpanel').style.display = 'none';
+            document.getElementById('eightpanel').style.display = 'none';
+            document.getElementById('ninepanel').style.display = 'none';
+            document.getElementsByName('asset_Name').innerHTML = document.getElementsByName('asset_name').innerHTML;
+            return false;
+        };
+
+        document.getElementById('twop').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'block';
+            document.getElementById('onepanel').style.display = 'block';
+            document.getElementById('one').style.color = 'grey';
+
+            return false;
+        };
+
+        document.getElementById('twon').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('three').style.color = 'grey';
+            document.getElementById('two').style.color = 'dodgerblue';
+
+            document.getElementById('threepanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('threep').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('two').style.color = 'grey';
+            document.getElementById('twopanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('threen').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('four').style.color = 'grey';
+            document.getElementById('fourpanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('fourp').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('three').style.color = 'grey';
+            document.getElementById('threepanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('fourn').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('five').style.color = 'grey';
+            document.getElementById('fivepanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('fivep').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('four').style.color = 'grey';
+            document.getElementById('fourpanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('fiven').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('six').style.color = 'grey';
+            document.getElementById('sixpanel').style.display = 'block';
+            window.location.href = "/Sensor/Ping/" + @Model.asset_id;
+            return false;
+        };
+
+        document.getElementById('sixp').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('five').style.color = 'grey';
+            document.getElementById('fivepanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('sixn').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('seven').style.color = 'grey';
+            document.getElementById('sevenpanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('sevenp').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('six').style.color = 'grey';
+            document.getElementById('sixpanel').style.display = 'block';
+            window.location.href = "/Sensor/Ping/" + @Model.asset_id;
+            return false;
+        };
+
+        document.getElementById('sevenn').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('eight').style.color = 'grey';
+            document.getElementById('eightpanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('eightp').onclick = function () {
+            allBlue();
+            allDisplayNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('seven').style.color = 'grey';
+            document.getElementById('sevenpanel').style.display = 'block';
+
+            return false;
+        };
+
+        document.getElementById('eightn').onclick = function () {
+
+            allBlue();
+            allDisplayNone();
+            allButtonNone();
+            document.getElementById('zeropanel').style.display = 'none';
+            document.getElementById('onepanel').style.display = 'block';
+            document.getElementById('eight').style.color = 'dodgerblue';
+            document.getElementById('nine').style.color = 'grey';
+            document.getElementById('twopanel').style.display = 'none';
+            document.getElementById('threepanel').style.display = 'none';
+            document.getElementById('fourpanel').style.display = 'none';
+            document.getElementById('fivepanel').style.display = 'none';
+            document.getElementById('sixpanel').style.display = 'block';
+            document.getElementById('sevenpanel').style.display = 'block';
+            document.getElementById('eightpanel').style.display = 'block';
+            document.getElementById('ninepanel').style.display = 'block';
+
+            return false;
+        };
+
+        function callChangefunc(val) {
+            //document.getElementById('onepanel').style.display = 'block';
+            window.location.href = "/Sensor/Activate/" + val;
+        }
+        //Close Alerts
+        document.getElementById('alert').onclick = function () {
+            document.getElementById('alert').style.display = 'none';
+        }
+        document.getElementById('successmessage').onclick = function () {
+            document.getElementById('successmessage').style.display = 'none';
+        }
+        function close()
+        {
+            document.getElementById('successmessage').style.display = 'none';
+        }
+        //Success Alert
+        $("#alert").fadeTo(5000, 500).slideUp(500, function () {
+            $("#alert").slideUp(500);
+        });
+        $(function () {
+            $('#register').on('click', function () {
+                $('.register-popup').dialog('open');
+            });
+            $('.register-popup').dialog({
+                autoOpen: false,
+                modal: true,
+                width: '280',
+                height: '800',
+                title: 'Register Here',
+                buttons: {
+                    'Register Now!': function () {
+                        $.ajax({
+                            url: 'path/to/registration/controller',
+                            type: 'POST',
+                            data: $(this).find('form').serialize(),
+                            success: function (data) {
+                                console.log('This is where the data is returned from your controller to the web page');
+                                $(this).dialog('close');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+            type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+}

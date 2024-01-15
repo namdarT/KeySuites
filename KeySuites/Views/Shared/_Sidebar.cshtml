@@ -1,0 +1,144 @@
+﻿@{string currentPage = ViewContext.RouteData.Values["action"].ToString();}
+<script type="text/javascript">
+    $('.collapse').collapse()
+</script>
+<div class="sidebar col-md-push-4" data-color="blue" >
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+
+    <div class="logo">
+        <a href="javascript:void(0)" class="simple-text">
+            Simplicity Sensor
+        </a>
+        
+    </div>
+    
+    <div  class="sidebar-wrapper" style="width : 255px; border-block-end-style:solid">
+        <div >
+            
+        </div>
+        <ul class="list-unstyled components">
+            
+            <li class="active">
+                
+                <ul id="homeSubmenu" class="nav list-group" style="border-block:groove">
+
+
+                    <li class="list-group-item">
+
+                        <div>
+                            <button class="btn-block" style="color: #595757; font-size: 12px" onclick="location.href='/Home/Index';">
+                                <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">dashboard</i>Sensor Dashboard
+                                @*<p class="pull-left">Sensor Dashboard</p>*@
+                            </button>
+                        </div>
+                    </li>
+                    @if (Session["LoginUserRole"].ToString() != "Client" && Session["LoginUserRole"].ToString() != "CLIENT")
+                    {
+                        <li class="list-group-item">
+                            <div>
+                                <button id="parent" class="btn-block" style="color:dimgray;font-size: 12px" data-toggle="collapse" data-target="#demo" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <i class="material-icons">sensors</i>Sensor Management<i id="ico" class="material-icons pull-right">expand_more</i>
+
+                                </button>
+                                <!--<a id="parent" style="color: #595757" data-toggle="collapse" href="#demo">
+                <i class="material-icons">sensors</i>Sensor Management-->
+                                @*<p>Sensor Management</p>*@
+                                @*<ul class="dropdown-menu" >
+                        <li class="dropdown-">
+                            <a style="color: #595757" href="/Home/HomePage">
+                                <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">sensors</i>Sensor Add/Edit/Delete
+                        </li>
+                    </ul>*@
+                                <!--</a>-->
+                                <div id="demo" class="collapse" data-parent="#parent">
+                                    <ul class="list-group">
+                                        @if (Session["LoginUserRole"].ToString() != "Client Administrator" && Session["LoginUserRole"].ToString() != "CLIENT ADMINISTRATOR")
+                                        {
+                                            <li class="list-group-item">
+                                                <div>
+                                                    <a style="color: #595757; font-size:12px" href="/Sensor/SensorsList">
+                                                        <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">settings_suggest</i>Sensor Add-Edit-Delete
+                                                        @*<p class="pull-left">Sensor Dashboard</p>*@
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div>
+                                                    <a style="color: #595757; font-size: 12px " href="/Sensor/Assign">
+                                                        <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">people</i>Sensor Assignment
+                                                        @*<p class="pull-left">Sensor Dashboard</p>*@
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        }
+
+                                        <li class="list-group-item">
+                                            <div>
+                                                <a style="color: #595757; font-size: 12px" href="/Sensor/Activate">
+                                                    <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">auto_fix_normal</i>Sensor Activation
+                                                    @*<p class="pull-left">Sensor Dashboard</p>*@
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div>
+                                                <a style="color: #595757; font-size: 12px" href="/Sensor/SensorAlert">
+                                                    <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">notification_add</i>Sensor Alert Setup
+                                                    @*<p class="pull-left">Sensor Dashboard</p>*@
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <button class="btn-block" style="color: #595757; font-size: 12px" onclick="location.href='/ClientManage/Index';">
+                                    <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">people</i>Client/User Management
+                                    @*<p>Client/User Management</p>*@
+                                </button>
+                            </div>
+                        </li>
+                    }
+
+
+                    <li class="list-group-item">
+                        <div>
+                            <button class="btn-block" style="color: #595757; font-size: 12px" onclick="location.href='/Account/Login';">
+                                <i class="material-icons navigation-item-icon ng-tns-c4-5 ng-star-inserted">logout</i>Logout
+                                @*<p>Client/User Management</p>*@
+                                </a>
+                        </div>
+                    </li>
+                    <!--<li style="color: #595757" class="active-pro">
+    <a href="/home/profile">-->
+                    @*<i class="material-icons">dashboard</i>*@
+                    <!--<p>Manufacturer</p>
+        </a>
+    </li>-->
+                </ul>
+            </li>
+        </ul>
+</div>
+</div>
+<script>
+    document.getElementById('parent').onclick = function () {
+        if (document.getElementById('demo').style.display == 'block') {
+            document.getElementById('demo').style.display = 'none'
+            document.getElementById('ico').innerHTML = 'expand_more'
+        }
+        else
+        {
+            document.getElementById('demo').style.display = 'block'
+            document.getElementById('ico').innerHTML = 'expand_less'
+        }
+        
+        //return false;
+    };
+
+</script>

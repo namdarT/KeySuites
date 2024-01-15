@@ -1,0 +1,80 @@
+﻿@model Vidly.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Customer form</h4>
+                    <p class="category">Insert or update customer data down below.</p>
+                </div>
+                <div class="card-content">
+
+                    @using (Html.BeginForm("save", "customers"))
+    {
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control border-dark" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        @Html.LabelFor(m => m.MembershipTypeId, new { @class = "control-label" })
+                        @*@Html.DropDownGroupListFor(m => m.MembershipTypeId, Model.MembershipTypesListItems, new { @class = "selectpicker", @multiple = true })*@
+                        @Html.DropDownListFor(m => m.MembershipTypeId, Model.MembershipTypesListItems, new { @class = "selectpicker", @multiple = true })
+                        @Html.ValidationMessageFor(m => m.MembershipTypeId)
+                        <input type="hidden" name="MembershipTypeId" value="" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group label-floating">
+                        @Html.LabelFor(m => m.Birthdate, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Birthdate, "{0:d MMMM yyyy}", new { @class = "form-control border-dark" })
+                        @Html.ValidationMessageFor(m => m.Birthdate)
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(m => m.IsSubscribedToNewsletter) Subscribed to Newsletter?
+                        </label>
+                    </div>
+                </div>
+                @Html.HiddenFor(m => m.Id)
+                <div class="col-md-12">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success">
+                        <i class="material-icons">save</i>
+                        Save
+                    </button>
+                    <a href="/customers" class="btn btn-danger">Cancel</a>
+                </div>
+}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            //$(".selectpicker").selectpicker({
+            //    style: 'form-control'
+            //});
+            $(".selectpicker")
+                .selectpicker('setStyle', 'btn', 'remove')
+                .selectpicker('setStyle', 'btn-default', 'remove')
+                .selectpicker('setStyle', 'form-control', 'add');
+        });
+    </script>
+}

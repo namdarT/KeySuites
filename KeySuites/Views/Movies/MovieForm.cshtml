@@ -1,0 +1,85 @@
+﻿@model Vidly.ViewModels.MovieFormViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Movie form</h4>
+                    <p class="category">Insert or update movie data down below.</p>
+                </div>
+                <div class="card-content">
+                    @using (Html.BeginForm("Save", "Movies"))
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control border-dark" })
+                                    @Html.ValidationMessageFor(m => m.Name)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.GenreId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "", new { @class = "selectpicker", data_style = "btn btn-primary btn-round" })
+                                    @Html.ValidationMessageFor(m => m.GenreId)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.DateAdded, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.DateAdded, "{0:d MMMM yyyy}", new { @class = "form-control border-dark" })
+                                    @Html.ValidationMessageFor(m => m.DateAdded)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.ReleaseDate, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.ReleaseDate, "{0:d MMMM yyyy}", new { @class = "form-control border-dark" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(m => m.NumberInStock, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.NumberInStock, new { @class = "form-control border-dark", @type = "number" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.HiddenFor(m => m.Id)
+                            <div class="col-md-12">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-success">
+                                    <i class="material-icons">save</i>
+                                    Save
+                                </button>
+                                <a href="/movies" class="btn btn-danger">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $(".selectpicker").selectpicker();
+        });
+    </script>
+}

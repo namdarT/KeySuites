@@ -1,0 +1,25 @@
+﻿@model Vidly.Models.Customer
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a class="btn btn-primary" href="/customers" role="button">
+    <i class="material-icons">arrow_back</i>
+    Back to list
+</a>
+
+<h2>Customer Details</h2>
+
+@if (Model == null)
+{
+    <text>No customer found.</text>
+}
+else
+{
+    <ul>
+        <li>Name: @Model.Name</li>
+        <li>Birthdate: @Model.Birthdate.Value.ToShortDateString()</li>
+    </ul>
+}
+

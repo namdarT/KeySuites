@@ -1,0 +1,529 @@
+﻿@*@model Tuple<IEnumerable<Vidly.Models.VwAppUserAsset>, Vidly.Models.VwAppUserAsset, IEnumerable<rpt_sensor_graph_Result>, Vidly.Models.DashboardStatus>*@
+@{
+    ViewData["Title"] = "Device Data List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="main-panel">
+    <div class="content-wrapper pb-0">
+        <div class="page-header flex-wrap">
+            <h3 class="mb-0">
+                Hi, welcome back! <span class="pl-0 h6 pl-sm-2 text-muted d-inline-block">@Session["LoginUserName"]...</span>
+            </h3>
+            <div class="d-flex">
+                @*<button type="button" class="btn btn-sm bg-white btn-icon-text border">
+                        <i class="mdi mdi-database-edit btn-icon-prepend"></i> Add Customers
+                    </button>*@
+                <a href="/Setup/AddVendor" class="btn btn-sm bg-white btn-icon-text border ml-3">
+                    <i class="mdi mdi-database-export btn-icon-prepend"></i> Add Vendors
+                </a>
+                <a href="/Setup/AddProperty" class="btn btn-sm ml-3 btn-success"> Add Property </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
+                <div class="row">
+                    <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                        <div class="card bg-warning">
+                            <div class="card-body px-3 py-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="color-card">
+                                        <p class="mb-0 color-card-head">Leases</p>
+                                        <h2 class="text-white">
+                                            $@(ViewBag.Leased)
+                                        </h2>
+                                    </div>
+                                    <i class="card-icon-indicator mdi mdi-basket bg-inverse-icon-warning"></i>
+                                </div>
+                                <h6 class="text-white"> Since last month</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                        <div class="card bg-danger">
+                            <div class="card-body px-3 py-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="color-card">
+                                        <p class="mb-0 color-card-head">Difference</p>
+                                        <h2 class="text-white">
+                                            $@(ViewBag.Difference)
+                                        </h2>
+                                    </div>
+                                    <i class="card-icon-indicator mdi mdi-cube-outline bg-inverse-icon-danger"></i>
+                                </div>
+                                <h6 class="text-white"> Since last month</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3 pb-lg-0 pb-xl-3">
+                        <div class="card bg-primary">
+                            <div class="card-body px-3 py-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="color-card">
+                                        <p class="mb-0 color-card-head">Quote</p>
+                                        <h2 class="text-white">
+                                            @(ViewBag.QuoteCount)
+                                        </h2>
+                                    </div>
+                                    <i class="card-icon-indicator mdi mdi-briefcase-outline bg-inverse-icon-primary"></i>
+                                </div>
+                                <h6 class="text-white">Since last month</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
+                        <div class="card bg-success">
+                            <div class="card-body px-3 py-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="color-card">
+                                        <p class="mb-0 color-card-head">Leads</p>
+                                        <h2 class="text-white"> @(ViewBag.LeadCount)</h2>
+                                    </div>
+                                    <i class="card-icon-indicator mdi mdi-account-circle bg-inverse-icon-success"></i>
+                                </div>
+                                <h6 class="text-white">Since last month</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 stretch-card grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <h5>Business Survey</h5>
+                                <p class="text-muted">
+                                    Show overview <a class="text-muted font-weight-medium pl-2" href="#"><u></u></a>
+                                </p>
+                            </div>
+                            <div class="col-sm-5 text-md-right">
+                                <!--<button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
+                                  <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card mb-3 mb-sm-0">
+                                    <div class="card-body py-3 px-4">
+                                        <p class="m-0 survey-head">No of Quotes (This Year)</p>
+                                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                                            <div>
+                                                <h3 class="m-0 survey-value">
+                                                    @(ViewBag.QuoteCountCurrentYear)
+                                                </h3>
+                                                @*<p class="text-success m-0">-310 avg. leases</p>*@
+                                            </div>
+                                            <div id="earningChart" class="flot-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card mb-3 mb-sm-0">
+                                    <div class="card-body py-3 px-4">
+                                        <p class="m-0 survey-head">No of Leads (This Year)</p>
+                                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                                            <div>
+                                                <h3 class="m-0 survey-value">
+                                                    @(ViewBag.LeadCountCurrentYear)
+                                                </h3>
+                                                @*<p class="text-danger m-0">-310 avg. sales</p>*@
+                                            </div>
+                                            <div id="propertyChart" class="flot-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-body py-3 px-4">
+                                        <p class="m-0 survey-head">No of Leases (This Year)</p>
+                                        <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                                            <div>
+                                                <h3 class="m-0 survey-value">
+                                                    @(ViewBag.LeaseCountCurrentYear)
+                                                </h3>
+                                                <!--<p class="text-success m-0">-310 avg. sales</p>-->
+                                            </div>
+                                            <div id="orderChart" class="flot-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-sm-12">
+                                <div class="flot-chart-wrapper">
+                                    <div class="fa-line-chart">
+                                        <canvas id="flotChart" class="flot-base"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <!--<p class="text-muted mb-0">  <b>Learn More</b>-->
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="mb-0 text-muted">Lease Amount</p>
+                                <h5 class="d-inline-block survey-value mb-0">
+                                    @(ViewBag.LeasedCurrentYear)
+                                </h5>
+                                <p class="d-inline-block text-danger mb-0"> Current Year </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body px-0 overflow-auto">
+                        <h4 class="card-title pl-4">Lease History</h4>
+                        <div class="table-responsive">
+                            <div id="demo_infoLease" class="box" style="display:none"></div>
+                            <table id="Lease" class="table table-striped " style="font-size:12px;color:black">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Ocupant</th>
+                                        <th>Property</th>
+                                        @*<th>Referral</th>*@
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (IEnumerable<Vidly.Models.DashboardLeaseHistoryReport>)ViewBag.LeaseHistory)
+                                    {
+                                        <tr class="table-striped">
+
+                                            <td>@Html.DisplayFor(modelItem => item.OcupantName)</td>
+                                            <td>
+                                                <div class="badge badge-inverse-success">@Html.DisplayFor(modelItem => item.Name)</div>
+                                            </td>
+                                            <td>$ @Html.DisplayFor(modelItem => item.Charges)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xl-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-black">Pending Quotes</h4>
+                        <div class="table-responsive">
+                            <div id="demo_infoComp" class="box" style="display:none"></div>
+                            <table id="Comp" class="table table-striped " style="font-size:12px;color:black">
+                                <thead>
+                                    <tr>
+
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (IEnumerable<Vidly.Models.DashboardPendingQuoteReport>)ViewBag.PendingQuote)
+                                    {
+                                        <tr class="table-striped">
+
+                                            <td>
+                                                <div class="col-8 col-sm-8 p-sm-0">
+                                                    <div class="my-auto">
+                                                        <a href="/Setup/AddLead/@item.LeadsId" class="btnLink" data-toggle="tooltip" title="Lead Detail">Quote Pending to @item.OcupantName</a>
+
+                                                    </div>
+                                                    <p class="text-muted font-12">@item.SpentDays</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!--<p class="text-muted">Created by anonymous</p>-->
+
+                            <div class="add-items d-flex flex-wrap flex-sm-nowrap">
+                                <!--<input type="text" class="form-control todo-list-input flex-grow" placeholder="Add Lead name" />-->
+                                <a href="/Setup/AddLead"  class="add btn btn-primary font-weight-regular text-nowrap" id="add-task"> Add New Lead </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-black">Recent Contacts</h4>
+                        <p class="text-muted">All contacts</p>
+                        <div class="table-responsive">
+                            <div id="demo_infoContacts" class="box" style="display:none"></div>
+                            <table id="Contacts" class="table table-striped " style="font-size:12px;color:black">
+                                <thead>
+                                    <tr>
+
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (IEnumerable<Vidly.Models.Contact>)ViewBag.RecentContact)
+                                    {
+                                        <tr class="table-striped">
+
+                                            <td>
+                                                <div class="col-8 col-sm-8 p-sm-0">
+                                                    <div class="my-auto">
+                                                        <a href="/Setup/AddContact/@item.Id" class="btnLink" data-toggle="tooltip" title="Contact Detail">@item.FirstName</a>
+
+                                                    </div>
+                                                    <p class="text-muted font-12">@item.Company</p>
+                                                </div>
+                                                <div class="col-8 col-sm-8 p-sm-0">
+                                                    <div class="my-auto">
+                                                        @item.Phone
+
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!--<p class="text-muted">Created by anonymous</p>-->
+                            <div class="add-items d-flex flex-wrap flex-sm-nowrap">
+                                <!--<input type="text" class="form-control todo-list-input flex-grow" placeholder="Add Lead name" />-->
+                                <a href="/Setup/Contact" class="add btn btn-primary font-weight-regular text-nowrap" id="add-task"> Add Contact </a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 grid-margin stretch-card">
+                <div class="card card-invoice">
+                    <div class="card-body">
+                        <h4 class="card-title pb-3">Pending Leases</h4>
+                        <div class="table-responsive">
+                            <div id="demo_infoLease" class="box" style="display:none"></div>
+                            <table id="Lease" class="table table-striped " style="font-size:12px;color:black">
+                                <thead>
+                                    <tr>
+
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (IEnumerable<Vidly.Models.DashboardPendingLeasesReport>)ViewBag.PendingLease)
+                                    {
+                                        <tr class="list-card">
+
+                                            <td>
+                                                <div class="row align-items-center">
+                                                    <div class="col-7 col-sm-8">
+                                                        <div class="row align-items-center">
+
+                                                            <div class="col-8 col-sm-8 p-sm-0">
+                                                                <div class="my-auto">
+                                                                    <a href="/Setup/AddQuote/@item.QuoteId" class="btnLink" data-toggle="tooltip" title="Quote Detail">Lease Pending to @item.OcupantName</a>
+
+                                                                </div>
+                                                                <p class="text-muted font-12">@item.SpentDays</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-5 col-sm-4">
+                                                        <div class="d-flex pt-1 align-items-center">
+                                                            <div class="reload-outer bg-info">
+                                                                <i class="mdi mdi-reload"></i>
+                                                            </div>
+                                                            <div class="dropdown dropleft pl-1 pt-3">
+                                                                <div id="dropdownMenuButton2" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                    <p><i class="mdi mdi-dots-vertical"></i></p>
+                                                                </div>
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                                                    <a class="dropdown-item" href="/Setup/Quotes">Leases</a>
+                                                                    @*<a class="dropdown-item" href="#">Track Invoice</a>
+                        <a class="dropdown-item" href="#">Payment History</a>*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!--<p class="text-muted">Created by anonymous</p>-->
+
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © www.keyluxesuitesportal.com 2023</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> <a href="https://www.keyluxesuitesportal.com/" target="_blank"></a></span>
+        </div>
+    </footer>
+</div>
+<!-- main-panel ends -->
+@*<script src="~/assets/js/chart.js"></script>*@
+<script src="~/assets/vendors/chart.js/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("flotChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: [@foreach (var item in (IEnumerable< Vidly.Models.DashboardGraphReport>)ViewBag.Leads)
+                                            {<text>"@item.MonthName",</text> }],
+            datasets: [
+                
+                {
+                    label: "Leased",
+                    data: [@foreach (var item in (IEnumerable<Vidly.Models.DashboardGraphReport>)ViewBag.Leases)
+                    {<text>"@int.Parse(item.Count.ToString())",</text> }],
+
+                    backgroundColor: "rgba(213,221,238)",
+                },
+                {
+                    label: "Quote",
+                    data: [@foreach (var item in (IEnumerable<Vidly.Models.DashboardGraphReport>)ViewBag.Quotes)
+                    {<text>"@int.Parse(item.Count.ToString())",</text> }],
+                    backgroundColor: "rgba(63,80,246)",
+                }
+                ,
+
+                {
+                    label: "Leads",
+                    data: [@foreach (var item in (IEnumerable<Vidly.Models.DashboardGraphReport>)ViewBag.Leads)
+                    {<text>"@int.Parse(item.Count.ToString())",</text> }],
+                    backgroundColor: "rgba(0,204,205)",
+                }
+                ,
+            ],
+        },
+        options: {
+            scales: {
+                yAxes: {
+                    ticks: {
+                        stepSize: 1
+                    },
+                }
+            }
+        }
+    });
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.0/jquery.fancybox.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+<script>
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoComp');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Comp', {
+        info: false,
+        ordering: false,
+        paging: false,
+        pageLength: 5
+    });
+
+
+</script>
+
+
+<script>
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoLease');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Lease', {
+        info: false,
+        ordering: false,
+        paging: false,
+        pageLength: 5
+    });
+
+
+</script>
+
+<script>
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoPLease');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#PLease', {
+        info: false,
+        ordering: false,
+        paging: false,
+        pageLength: 5
+    });
+
+
+</script>
+
+<script>
+
+    function eventFired(type) {
+        let n = document.querySelector('#demo_infoContacts');
+        n.innerHTML +=
+            '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+        n.scrollTop = n.scrollHeight;
+    }
+
+    new DataTable('#Contacts', {
+        info: false,
+        ordering: false,
+        paging: false,
+        pageLength: 5
+    });
+
+
+</script>
